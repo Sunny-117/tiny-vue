@@ -1,4 +1,4 @@
-import { createRenderer } from "@petite-vue/runtime-core";
+import { createRenderer } from "@tiny-vue/runtime-core";
 
 function createElement(type) {
   return document.createElement(type);
@@ -45,4 +45,4 @@ export function createApp(...args) {
   return renderer.createApp(...args);
 }
 
-export * from "@petite-vue/runtime-core";
+export * from "@tiny-vue/runtime-core";
