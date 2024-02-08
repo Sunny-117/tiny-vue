@@ -1,6 +1,6 @@
 # tiny-vue
 
-<img src="./assets/logo.png" width="300">
+<img src="./2024-02-08-19-36-36.png" width="300">
 
 # Feature
 
