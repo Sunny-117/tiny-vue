@@ -1,25 +1,25 @@
 {
-  "name": "use-url-state",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "name": "tiny-vue",
+  "version": "0.0.1",
+  "main": "lib/tiny-vue.cjs.js",
+  "module": "lib/tiny-vue.esm.js",
+  "license": "MIT",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "ahooks": "^3.7.4",
-    "query-string": "^6.9.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router": "^6.8.1"
+    "test": "vitest",
+    "build": "rollup -c rollup.config.js"
   },
   "devDependencies": {
-    "@types/react": "^18.0.27",
-    "@types/react-dom": "^18.0.10",
-    "@vitejs/plugin-react": "^3.1.0",
-    "typescript": "^4.9.3",
-    "vite": "^4.1.0"
+    "@babel/core": "^7.15.5",
+    "@babel/preset-env": "^7.15.4",
+    "@babel/preset-typescript": "^7.15.0",
+    "@rollup/plugin-typescript": "^8.2.5",
+    "rollup": "^2.57.0",
+    "tslib": "^2.3.1",
+    "typescript": "^4.4.2",
+    "vitest": "^0.22.1"
+  },
+  "dependencies": {
+    "@tiny-vue/compiler-core": "workspace:^1.0.0",
+    "@tiny-vue/runtime-dom": "workspace:^1.0.0"
   }
 }
