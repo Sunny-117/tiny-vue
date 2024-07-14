@@ -777,6 +777,7 @@ function createRenderer(options) {
     }
     return {
         createApp: createAppAPI(render),
+        render
     };
 }
 function updateComponentPreRender(instance, nextVNode) {

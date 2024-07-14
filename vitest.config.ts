@@ -8,8 +8,8 @@ export default defineConfig({
   resolve: {
     alias: [
       {
-        find: /@tiny-vue\/(\w*)/,
-        replacement: path.resolve(__dirname, "packages") + "/$1/src"
+        find: /@tiny-vue\/(.+)/,
+        replacement: path.resolve(__dirname, "packages") + "/$1/src",
       },
     ],
   },

@@ -377,6 +377,7 @@ export function createRenderer(options) {
 
   return {
     createApp: createAppAPI(render),
+    render
   };
 }
 
