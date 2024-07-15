@@ -3,16 +3,18 @@
   "version": "0.0.1",
   "main": "lib/tiny-vue.cjs.js",
   "module": "lib/tiny-vue.esm.js",
+  "type": "module",
   "license": "MIT",
   "scripts": {
     "test": "vitest",
-    "build": "rollup -c rollup.config.js"
+    "build": "rolldown -c rolldown.config.js"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
     "@babel/preset-env": "^7.15.4",
     "@babel/preset-typescript": "^7.15.0",
     "@rollup/plugin-typescript": "^8.2.5",
+    "rolldown": "^0.12.1",
     "rollup": "^2.57.0",
     "tslib": "^2.3.1",
     "typescript": "^4.4.2",
