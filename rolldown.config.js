@@ -1,4 +1,3 @@
-import typescript from "@rollup/plugin-typescript";
 export default {
   input: "./packages/vue/src/index.ts",
   output: [
@@ -11,6 +10,4 @@ export default {
       file: "packages/vue/dist/tiny-vue.esm.js",
     },
   ],
-
-  plugins: [typescript()],
 };
