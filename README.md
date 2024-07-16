@@ -1,6 +1,8 @@
 # tiny-vue
 
-<img src="./assets/tiny-vue.png" width="400">
+<p align="center">
+    <img src="./assets/tiny-vue.png" width="400">
+</p>
 
 ## Feature
 
