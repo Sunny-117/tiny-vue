@@ -18,6 +18,19 @@ const items = ref([
   { name: '选项 2', checked: false },
   { name: '选项 3', checked: false }
 ])
+console.log('复选框组件【创建完成】')
+onBeforeMount(() => {
+  console.log('复选框组件【即将挂载】')
+})
+onMounted(() => {
+  console.log('复选框组件【挂载完成】')
+})
+onBeforeUnmount(() => {
+  console.log('复选框组件【即将卸载】')
+})
+onUnmounted(() => {
+  console.log('复选框组件【卸载完成】')
+})
 </script>
 
 <script>

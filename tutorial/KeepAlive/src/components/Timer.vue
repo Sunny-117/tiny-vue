@@ -8,8 +8,6 @@
 </template>
 
 <script setup>
-import { ref, computed, onUnmounted } from 'vue'
-
 const seconds = ref(0)
 const milliseconds = ref(0)
 const timerRunning = ref(false)
@@ -40,8 +38,18 @@ const formattedTime = computed(() => {
   const s = seconds.value.toString().padStart(2, '0')
   return `${s}:${ms}`
 })
-
+console.log('计时器组件【创建完成】')
+onBeforeMount(()=>{
+  console.log('计时器组件【即将挂载】')
+})
+onMounted(() => {
+  console.log('计时器组件【挂载完成】')
+})
+onBeforeUnmount(() => {
+  console.log('计时器组件【即将卸载】')
+})
 onUnmounted(() => {
+  console.log('计时器组件【卸载完成】')
   clearInterval(timer)
 })
 </script>

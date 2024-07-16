@@ -9,6 +9,25 @@
 <script setup>
 import { ref } from 'vue'
 const count = ref(0)
+console.log('计数器组件【创建完成】')
+onBeforeMount(() => {
+  console.log('计数器组件【即将挂载】')
+})
+onMounted(() => {
+  console.log('计数器组件【挂载完成】')
+})
+onBeforeUnmount(() => {
+  console.log('计数器组件【即将卸载】')
+})
+onUnmounted(() => {
+  console.log('计数器组件【卸载完成】')
+})
+onActivated(() => {
+  console.log('计数器组件【激活】')
+})
+onDeactivated(() => {
+  console.log('计数器组件【失活】')
+})
 </script>
 
 <script>

@@ -9,6 +9,19 @@
 <script setup>
 import { ref } from 'vue'
 const text = ref('')
+console.log('文本框组件【创建完成】')
+onBeforeMount(()=>{
+  console.log('文本框组件【即将挂载】')
+})
+onMounted(() => {
+  console.log('文本框组件【挂载完成】')
+})
+onBeforeUnmount(() => {
+  console.log('文本框组件【即将卸载】')
+})
+onUnmounted(() => {
+  console.log('文本框组件【卸载完成】')
+})
 </script>
 
 <script>
