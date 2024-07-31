@@ -2,6 +2,8 @@ import {
   h,
   nodeOps,
   render,
+  TestElement,
+  TestNodeTypes,
 } from '../src'
 
 describe('test renderer', () => {
@@ -20,8 +22,8 @@ describe('test renderer', () => {
 
     expect(root.children.length).toBe(1)
 
-    const el = root.children[0]
-    // expect(el.type).toBe(TestNodeTypes.ELEMENT)
+    const el = root.children[0] as TestElement
+    expect(el.type).toBe(TestNodeTypes.ELEMENT)
     // expect(el.props.id).toBe('test')
     // expect(el.children.length).toBe(1)
 

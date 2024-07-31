@@ -2,6 +2,37 @@ export const enum NodeTypes {
   ELEMENT = "element",
   TEXT = "TEXT",
 }
+export enum TestNodeTypes {
+  TEXT = 'text',
+  ELEMENT = 'element',
+  COMMENT = 'comment',
+}
+
+export interface TestText {
+  id: number
+  type: TestNodeTypes.TEXT
+  parentNode: TestElement | null
+  text: string
+}
+
+export interface TestComment {
+  id: number;
+  type: TestNodeTypes.COMMENT;
+  parentNode: TestElement | null;
+  text: string;
+}
+
+export type TestNode = TestElement | TestText | TestComment
+
+export interface TestElement {
+  id: number
+  type: TestNodeTypes.ELEMENT
+  parentNode: TestElement | null
+  tag: string
+  children: TestNode[]
+  props: Record<string, any>
+  eventListeners: Record<string, Function | Function[]> | null
+}
 
 let nodeId = 0;
 // 这个函数会在 runtime-core 初始化 element 的时候调用
