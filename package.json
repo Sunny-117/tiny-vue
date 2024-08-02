@@ -6,7 +6,8 @@
   "license": "MIT",
   "scripts": {
     "test": "vitest",
-    "build": "rollup -c rollup.config.js"
+    "build": "rollup -c rollup.config.js",
+    "dev": "rollup -c rollup.config.js -w"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",

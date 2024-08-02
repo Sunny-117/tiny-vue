@@ -1,11 +1,11 @@
 // 把 node 给序列化
 // 测试的时候好对比
 
-import { NodeTypes } from "./nodeOps";
+import { TestNodeTypes } from "./nodeOps";
 
 // 序列化： 把一个对象给处理成 string （进行流化）
 export function serialize(node) {
-  if (node.type === NodeTypes.ELEMENT) {
+  if (node.type === TestNodeTypes.ELEMENT) {
     return serializeElement(node);
   } else {
     return serializeText(node);

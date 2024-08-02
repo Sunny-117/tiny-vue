@@ -380,6 +380,7 @@ function handleSetupResult(instance, setupResult) {
     finishComponentSetup(instance);
 }
 function finishComponentSetup(instance) {
+    console.log('因为没有走到这里');
     const Component = instance.type;
     if (compiler && !Component.render) {
         if (Component.template) {
@@ -704,7 +705,7 @@ function createRenderer(options) {
         const { children, shapeFlag } = vnode;
         // children
         if (shapeFlag & 4 /* ShapeFlags.TEXT_CHILDREN */) {
-            el.textContent = children;
+            hostSetElementText(el, vnode.children);
         }
         else if (shapeFlag & 8 /* ShapeFlags.ARRAY_CHILDREN */) {
             mountChildren(vnode.children, el, parentComponent, anchor);

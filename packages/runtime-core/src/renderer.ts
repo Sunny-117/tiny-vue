@@ -21,7 +21,6 @@ export function createRenderer(options) {
 
   function patch(n1, n2, container, parentComponent, anchor) {
     const { type, shapeFlag } = n2;
-
     switch (type) {
       case Fragment:
         processFragment(n1, n2, container, parentComponent, anchor);
@@ -332,7 +331,7 @@ export function createRenderer(options) {
       initialVNode,
       parentComponent
     ));
-
+    
     setupComponent(instance);
     setupRenderEffect(instance, initialVNode, container, anchor);
   }
