@@ -65,7 +65,7 @@ function setElementText(el, text) {
   el.children = [
     {
       id: nodeId++,
-      type: NodeTypes.TEXT,
+      type: TestNodeTypes.TEXT,
       text,
       parentNode: el,
     },

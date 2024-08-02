@@ -277,7 +277,7 @@ export function createRenderer(options) {
 
     // children
     if (shapeFlag & ShapeFlags.TEXT_CHILDREN) {
-      el.textContent = children;
+      hostSetElementText(el, vnode.children as string)
     } else if (shapeFlag & ShapeFlags.ARRAY_CHILDREN) {
       mountChildren(vnode.children, el, parentComponent, anchor);
     }
