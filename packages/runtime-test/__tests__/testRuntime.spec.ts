@@ -1,6 +1,7 @@
 import {
   dumpOps,
   h,
+  nextTick,
   nodeOps,
   NodeOpTypes,
   reactive,
@@ -93,6 +94,26 @@ describe('test renderer', () => {
       refNode: null,
     })
 
-    // TODO: test update ops
+    // test update ops
+    state.id = 'foo'
+    state.text = 'bar'
+    await nextTick()
+
+    const updateOps = dumpOps()
+    expect(updateOps.length).toBe(2)
+
+    expect(updateOps[0]).toEqual({
+      type: NodeOpTypes.SET_ELEMENT_TEXT,
+      targetNode: root.children[0],
+      text: 'bar',
+    })
+
+    expect(updateOps[1]).toEqual({
+      type: NodeOpTypes.PATCH,
+      targetNode: root.children[0],
+      propKey: 'id',
+      propPrevValue: 'test',
+      propNextValue: 'foo',
+    })
   })
 })
