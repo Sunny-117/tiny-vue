@@ -57,7 +57,6 @@ function handleSetupResult(instance, setupResult: any) {
 }
 
 function finishComponentSetup(instance: any) {
-  console.log('因为没有走到这里')
   const Component = instance.type;
 
   if (compiler && !Component.render) {

@@ -380,7 +380,6 @@ function handleSetupResult(instance, setupResult) {
     finishComponentSetup(instance);
 }
 function finishComponentSetup(instance) {
-    console.log('因为没有走到这里');
     const Component = instance.type;
     if (compiler && !Component.render) {
         if (Component.template) {

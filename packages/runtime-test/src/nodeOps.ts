@@ -46,6 +46,7 @@ export interface NodeOp {
   text?: string
   targetNode?: TestNode // 可能的类型：Element、Text、Comment
   parentNode?: TestElement // 只有Element类型才能做parent
+  refNode?: TestNode | null
   propKey?: string,
   propPrevValue?: any,
   propNextValue?: any
