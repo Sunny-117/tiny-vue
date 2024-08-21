@@ -130,6 +130,62 @@ import draggable from 'vuedraggable'
 一个“未完成”列表和一个“已完成”列表，两个列表之间的项目可以自由拖动。
 
 
+# vue-drag-resize
+
+vue-drag-resize：和拖拽相关的库
+
+- vuedraggable：主要用于列表项的拖拽排序。
+- vue-drag-resize：主要用于需要用户交互调整大小和位置的元素，如看板、图表、可视化编辑器等。
+
+**基本使用**
+
+安装这个库：
+
+```bash
+npm install vue-drag-resize
+```
+
+安装的版本信息："vue-drag-resize": "^1.5.4"
+
+接下来从 vue-drag-resize/src 中可以导入一个**组件 VueDragResize**，该组件提供一个插槽，可以存放要 resize 的模板内容。
+
+基本示例核心代码：
+
+```vue
+<template>
+  <div id="app">
+    <VueDragResize
+      :w="200"
+      :h="150"
+      :x="100"
+      :y="100"
+      :min-width="50"
+      :min-height="50"
+      @resizing="resizeHandle"
+      @dragging="() => console.log('拖拽中')"
+    >
+      <div class="content">可拖拽和调整大小的元素</div>
+    </VueDragResize>
+  </div>
+</template>
+
+<script setup>
+// 注意，这里是从vue-drag-resize下面的src目录导出的组件
+import VueDragResize from 'vue-drag-resize/src'
+
+const resizeHandle = (size) => {
+  console.log('调整了元素大小')
+  console.log(size)
+}
+</script>
+```
+
+
+
+**场景示例**
+
+用户选择图片，然后可以自由的对图片进行裁剪。
+
 # 「❤️ 感谢大家」
 
 如果你觉得这篇内容对你挺有有帮助的话：
