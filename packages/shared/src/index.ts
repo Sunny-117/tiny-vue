@@ -32,3 +32,10 @@ export const toHandlerKey = (str: string) => {
 };
 
 export { ShapeFlags } from "./ShapeFlags";
+
+// perf: optimize on* prop check
+export const isOn = (key: string) =>
+  key.charCodeAt(0) === 111 /* o */ &&
+  key.charCodeAt(1) === 110 /* n */ &&
+  // uppercase letter
+  (key.charCodeAt(2) > 122 || key.charCodeAt(2) < 97)
