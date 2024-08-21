@@ -443,6 +443,216 @@ const rules = {
 
 更多进阶用法可以参阅官方文档：https://vuelidate-next.netlify.app/advanced_usage.html
 
+# vue3-lazyload
+
+vue3-lazyload 是一个用于 Vue3 应用的**图片懒加载库**，它允许在图片进入视口之前不加载图片，从而提升页面的加载速度和性能。
+
+vue3-lazyload 主要特点有：
+
+1. 轻量级
+2. 简单易用
+3. 支持占位图
+4. 支持自定义加载和错误处理
+
+简单复习图片懒加载原理：在页面首次加载的时候，只有视口里面的图片才会被加载，其他图片需要用户滚动到视口时才会加载。
+
+思考1🤔：前面介绍过虚拟列表，长列表都可以使用虚拟列表来处理，懒加载是不是已经被淘汰了？
+
+1. 懒加载
+   - 适用场景：图片较多但数量不至于太多的列表，通常是几十到几百项。
+   - 工作原理：延迟加载进入视口的图片或资源，在用户滚动到接近这些资源时再进行加载。
+   - 优点：减小初始页面加载时间，减少带宽消耗。
+   - 缺点：在数量非常多时（如数万或十万项），DOM 节点的数量会变得非常庞大，导致浏览器渲染性能下降。
+
+2. 虚拟列表
+   - 适用场景：非常长的列表，通常是数千到数十万项。
+   - 工作原理：只渲染视口内的部分 DOM 节点，动态复用这些 DOM 节点来展示不同的数据项。
+   - 优点：极大地减少了 DOM 节点的数量，提高渲染性能和内存使用效率。
+   - 缺点：实现较为复杂，尤其是需要处理动态高度项和滚动同步的问题。
+
+思考2🤔：前面介绍了使用vue3-observe-visibility这个库来实现懒加载，这个vue3-lazyload相比那个库的优点是什么？
+
+- vue3-observe-visibility：侧重于关于元素是否进入指定的根元素，至于进入/离开指定根元素后要做什么事情由用户自己来指定
+- vue3-lazyload：专门为**图片懒加载**而生的。
+
+**基本使用**
+
+首先安装这个库：
+
+```bash
+npm i vue3-lazyload
+```
+
+然后在入口文件入并配置 vue3-lazyload：
+
+```js
+import { createApp } from 'vue';
+import App from './App.vue';
+// 引入这个库
+import VueLazyload from 'vue3-lazyload';
+
+const app = createApp(App);
+
+// 注册这个库
+app.use(VueLazyload, {
+  loading: 'https://dummyimage.com/600x400/cccccc/000000&text=Loading', // 图片加载时显示的占位图片
+  error: 'https://dummyimage.com/600x400/ff0000/ffffff&text=Error', // 图片加载失败时显示的图片
+  // 和IntersectionObserver相关的配置选项
+  observerOptions: {
+    rootMargin: '0px',
+    threshold: 0.1,
+  },
+  log: true, // 是否打印调试信息
+  logLevel: 'error', // 日志级别
+  delay: 0, // 设置延迟加载的时间
+});
+
+app.mount('#app');
+```
+
+配置选项说明如下：
+
+- loading：图片加载时显示的占位图片
+- error：图片加载失败时显示的图片
+- observerOptions：IntersectionObserver 的配置选项
+- log：是否打印调试信息
+- logLevel：日志级别
+- delay：设置延迟加载时间
+
+之后在组件中使用 v-lazy 指令：
+
+```vue
+<template>
+	<!-- 使用v-lazy这个指令，指令对应的值为图片的src -->
+  <img v-lazy="'path/to/your/image.jpg'" alt="description">
+</template>
+```
+
+指令对应的值也可以是一个对象，在对象中可以指定 loading 和 error 图片
+
+```vue
+<template>
+  <img v-lazy="{ src: 'your image url', loading: 'your loading image url', error: 'your error image url' }">
+</template>
+```
+
+**快速上手示例**
+
+
+
+**其他细节**
+
+**1. 生命周期**
+
+提供 3 个钩子方法：loading、error 以及 loaded.
+
+```js
+app.use(VueLazyLoad, {
+  loading: '',
+  error: '',
+  lifecycle: {
+    loading: (el) => {
+      console.log('loading', el)
+    },
+    error: (el) => {
+      console.log('error', el)
+    },
+    loaded: (el) => {
+      console.log('loaded', el)
+    }
+  }
+})
+```
+
+**2. observerOptions配置**
+
+observerOptions 用于配置 IntersectionObserver，通过配置 observerOptions，可以精确控制懒加载的触发时机和行为。
+
+该配置项对应的值是一个对象：
+
+- rootMargin
+  - 类型：string
+  - 默认值：'0px'
+  - 作用：用于扩展或缩小根元素的边界。类似于 CSS 的 margin 属性，可以设置四个方向的值，如 10px 20px 30px 40px。该属性可以让你提前或延后触发懒加载。例如，设置为 '100px'，表示在元素距离视口100像素时就触发加载。
+- threshold
+  - 类型：number
+  - 默认值：0.1
+  - 作用：用于指定一个或多个阈值，当目标元素的可见比例达到这些阈值时触发回调。阈值可以是从 0 到 1 之间的数值，0 表示元素刚出现时就触发，1 表示元素完全可见时才触发。
+
+**3. 注册方式**
+
+前面注册方式为 **全局注册**，另一种是 **局部注册**，通过 **useLazyload** 在单个组件中注册，从而局部使用懒加载功能。
+
+```vue
+<template>
+  <img ref="lazyRef" class="image" width="100" />
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue';
+import { useLazyload } from 'vue3-lazyload';
+
+// 图片 URL
+const src = ref('https://via.placeholder.com/600x400?text=Logo');
+
+// 在该组件中，通过useLazyload来创建懒加载链接
+// 注意：参数第一项是图片真实的src
+const lazyRef = useLazyload(src, {
+  lifecycle: {
+    loading: () => {
+      console.log('loading');
+    },
+    error: () => {
+      console.log('error');
+    },
+    loaded: () => {
+      console.log('loaded');
+    },
+  },
+});
+</script>
+
+<style scoped>
+.image {
+  display: block;
+  margin: 10px;
+  width: 200px;
+  height: 150px;
+  object-fit: cover;
+}
+</style>
+```
+
+
+
+**4. 控制加载样式**
+
+可以精确的控制图片不同加载状态的样式，vue3-lazyload 提供了 3 个状态：
+
+- loading：图片正在加载中
+- loaded：图片加载完成
+- error：图片加载失败
+
+在图片元素上，这些状态会通过 lazy 属性来表示。可以利用这个属性，在 CSS 中定义不同状态下图片的样式。
+
+```vue
+<img src="..." lazy="loading">
+<img src="..." lazy="loaded">
+<img src="..." lazy="error">
+
+<style>
+  img[lazy=loading] {
+    /*your style here*/
+  }
+  img[lazy=error] {
+    /*your style here*/
+  }
+  img[lazy=loaded] {
+    /*your style here*/
+  }
+</style>
+```
+
 # 「❤️ 感谢大家」
 
 如果你觉得这篇内容对你挺有有帮助的话：
