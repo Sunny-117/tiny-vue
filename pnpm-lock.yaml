@@ -187,6 +187,31 @@ importers:
   tutorial/reactive:
     specifiers: {}
 
+  tutorial/router/1. 路由模式/demo:
+    specifiers:
+      '@rushstack/eslint-patch': ^1.8.0
+      '@vitejs/plugin-vue': ^5.0.5
+      '@vue/eslint-config-prettier': ^9.0.0
+      eslint: ^8.57.0
+      eslint-plugin-vue: ^9.23.0
+      prettier: ^3.2.5
+      vite: ^5.3.1
+      vite-plugin-vue-devtools: ^7.3.1
+      vue: ^3.4.29
+      vue-router: ^4.3.3
+    dependencies:
+      vue: 3.4.31_typescript@4.7.4
+      vue-router: 4.4.3_vue@3.4.31
+    devDependencies:
+      '@rushstack/eslint-patch': 1.10.3
+      '@vitejs/plugin-vue': 5.0.5_vite@5.3.3+vue@3.4.31
+      '@vue/eslint-config-prettier': 9.0.0_eslint@8.57.0+prettier@3.3.3
+      eslint: 8.57.0
+      eslint-plugin-vue: 9.27.0_eslint@8.57.0
+      prettier: 3.3.3
+      vite: 5.3.3
+      vite-plugin-vue-devtools: 7.3.6_7470a76c1c1fc2616a91c7e6c28bf58a
+
   tutorial/sence:
     specifiers:
       '@faker-js/faker': ^8.4.1
