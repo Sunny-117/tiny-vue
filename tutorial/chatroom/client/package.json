@@ -11,10 +11,9 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@faker-js/faker": "^8.4.1",
+    "socket.io-client": "^4.7.5",
     "vue": "^3.4.29",
-    "lodash": "^4.17.21",
-    "vue3-observe-visibility": "^1.0.1"
+    "vue-router": "^4.4.3"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",

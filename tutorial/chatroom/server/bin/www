@@ -1,0 +1,156 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+const app = require("../app");
+const debug = require("debug")("server:server");
+const http = require("http");
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+const port = normalizePort(process.env.PORT || "3000");
+app.set("port", port);
+
+/**
+ * Create HTTP server.
+ */
+
+// 创建一个服务器
+const server = http.createServer(app);
+
+// 引入 Socket.IO 库，并立即调用以初始化 Socket.IO 服务器
+// 传入的参数是一个 HTTP 服务器实例 `server`，将 Socket.IO 服务器绑定到这个 HTTP 服务器上
+const io = require("socket.io")(server, {
+  // 配置 CORS（跨域资源共享）选项，以允许前端应用与后端进行跨域通信
+  cors: {
+    // 允许的前端地址，即可以与该 Socket.IO 服务器进行通信的来源
+    // 这里设置为 "http://localhost:5173"，这通常是前端应用在开发环境中的地址
+    origin: "http://localhost:5173",
+    // 允许的 HTTP 方法，用于控制前端可以使用哪些方法与服务器进行通信
+    methods: ["GET", "POST"],
+    // 允许的 HTTP 头，用于控制前端在请求时可以使用哪些请求头
+    // 这里允许 "Content-Type" 头，以支持发送不同格式的数据
+    allowedHeaders: ["Content-Type"],
+    // 是否允许发送凭证（如 cookies 或 HTTP 认证信息）到服务器
+    // 设为 true，表示允许发送凭证，这在某些需要认证的情况下非常有用
+    credentials: true,
+  },
+});
+
+let count = 0; // 保存当前在线用户数量
+
+// 监听连接事件
+// 当客户端和服务器建立Websocket连接后，会触发 connection 事件
+io.on("connection", function (socket) {
+  let username = ""; // 保存当前用户的用户名
+  // 新用户登录
+  socket.on("login", (data) => {
+    count += 1; // 在线用户数量加1
+    username = data; // 保存当前用户的用户名
+    // 触发当前用户的 login 事件，将当前用户的用户名和在线用户数量发送给客户端
+    socket.emit("login", {
+      username: data,
+      count,
+    });
+    // 向其他用户广播一条消息
+    socket.broadcast.emit("msg", {
+      username: data,
+      count,
+      type: "loginIn",
+    });
+  });
+  socket.on("count", () => {
+    // 触发客户端的 count 事件，将当前在线用户数量发送给客户端
+    socket.emit("count", count);
+  });
+  socket.on("msg", (data) => {
+    if (data.username) {
+      // 要做的事情：
+      // 1. 将这条消息原封不动的发给当前用户
+      socket.emit("msg", data);
+      // 2. 将这条消息广播给所有用户
+      socket.broadcast.emit("msg", data);
+    }
+  });
+  // 当前的用户离开
+  socket.on("disconnect", () => {
+    if (username) {
+      count -= 1; // 在线用户数量减1
+      // 向其他用户广播一条消息
+      socket.broadcast.emit("msg", {
+        username,
+        count,
+        type: "loginOut",
+      });
+    }
+  });
+});
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on("error", onError);
+server.on("listening", onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== "listen") {
+    throw error;
+  }
+
+  var bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case "EACCES":
+      console.error(bind + " requires elevated privileges");
+      process.exit(1);
+      break;
+    case "EADDRINUSE":
+      console.error(bind + " is already in use");
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  const addr = server.address();
+  const bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
+  debug("Listening on " + bind);
+  console.log(`服务器已启动，监听${port}端口...`);
+}
