@@ -265,8 +265,6 @@ export const useMyStore = defineStore('myStore', {
 });
 ```
 
-
-
 **实战案例**
 
 书写一个插件，该插件用来**记录操作日志**和**捕获错误**。
@@ -275,4 +273,4 @@ export const useMyStore = defineStore('myStore', {
 
 在 npm 官网搜索关键字 “pinia plugin”，之后根据文档使用。
 
-演示 pinia-plugin-persistedstate 插件的使用。
+自主学习：pinia-plugin-persistedstate 插件的使用。
