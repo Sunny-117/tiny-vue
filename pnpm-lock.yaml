@@ -212,7 +212,207 @@ importers:
       vite: 5.3.3
       vite-plugin-vue-devtools: 7.3.6_7470a76c1c1fc2616a91c7e6c28bf58a
 
+  tutorial/router/10. 滚动行为:
+    specifiers:
+      '@rushstack/eslint-patch': ^1.8.0
+      '@vitejs/plugin-vue': ^5.0.5
+      '@vue/eslint-config-prettier': ^9.0.0
+      eslint: ^8.57.0
+      eslint-plugin-vue: ^9.23.0
+      prettier: ^3.2.5
+      vite: ^5.3.1
+      vite-plugin-vue-devtools: ^7.3.1
+      vue: ^3.4.29
+      vue-router: ^4.3.3
+    dependencies:
+      vue: 3.4.31_typescript@4.7.4
+      vue-router: 4.4.3_vue@3.4.31
+    devDependencies:
+      '@rushstack/eslint-patch': 1.10.3
+      '@vitejs/plugin-vue': 5.0.5_vite@5.3.3+vue@3.4.31
+      '@vue/eslint-config-prettier': 9.0.0_eslint@8.57.0+prettier@3.3.3
+      eslint: 8.57.0
+      eslint-plugin-vue: 9.27.0_eslint@8.57.0
+      prettier: 3.3.3
+      vite: 5.3.3
+      vite-plugin-vue-devtools: 7.3.6_7470a76c1c1fc2616a91c7e6c28bf58a
+
   tutorial/router/2. 路由零碎知识:
+    specifiers:
+      '@rushstack/eslint-patch': ^1.8.0
+      '@vitejs/plugin-vue': ^5.0.5
+      '@vue/eslint-config-prettier': ^9.0.0
+      eslint: ^8.57.0
+      eslint-plugin-vue: ^9.23.0
+      prettier: ^3.2.5
+      vite: ^5.3.1
+      vite-plugin-vue-devtools: ^7.3.1
+      vue: ^3.4.29
+      vue-router: ^4.3.3
+    dependencies:
+      vue: 3.4.31_typescript@4.7.4
+      vue-router: 4.4.3_vue@3.4.31
+    devDependencies:
+      '@rushstack/eslint-patch': 1.10.3
+      '@vitejs/plugin-vue': 5.0.5_vite@5.3.3+vue@3.4.31
+      '@vue/eslint-config-prettier': 9.0.0_eslint@8.57.0+prettier@3.3.3
+      eslint: 8.57.0
+      eslint-plugin-vue: 9.27.0_eslint@8.57.0
+      prettier: 3.3.3
+      vite: 5.3.3
+      vite-plugin-vue-devtools: 7.3.6_7470a76c1c1fc2616a91c7e6c28bf58a
+
+  tutorial/router/3. 路由组件传参:
+    specifiers:
+      '@rushstack/eslint-patch': ^1.8.0
+      '@vitejs/plugin-vue': ^5.0.5
+      '@vue/eslint-config-prettier': ^9.0.0
+      eslint: ^8.57.0
+      eslint-plugin-vue: ^9.23.0
+      prettier: ^3.2.5
+      vite: ^5.3.1
+      vite-plugin-vue-devtools: ^7.3.1
+      vue: ^3.4.29
+      vue-router: ^4.3.3
+    dependencies:
+      vue: 3.4.31_typescript@4.7.4
+      vue-router: 4.4.3_vue@3.4.31
+    devDependencies:
+      '@rushstack/eslint-patch': 1.10.3
+      '@vitejs/plugin-vue': 5.0.5_vite@5.3.3+vue@3.4.31
+      '@vue/eslint-config-prettier': 9.0.0_eslint@8.57.0+prettier@3.3.3
+      eslint: 8.57.0
+      eslint-plugin-vue: 9.27.0_eslint@8.57.0
+      prettier: 3.3.3
+      vite: 5.3.3
+      vite-plugin-vue-devtools: 7.3.6_7470a76c1c1fc2616a91c7e6c28bf58a
+
+  tutorial/router/4.样式类示例:
+    specifiers:
+      '@rushstack/eslint-patch': ^1.8.0
+      '@vitejs/plugin-vue': ^5.0.5
+      '@vue/eslint-config-prettier': ^9.0.0
+      eslint: ^8.57.0
+      eslint-plugin-vue: ^9.23.0
+      prettier: ^3.2.5
+      vite: ^5.3.1
+      vite-plugin-vue-devtools: ^7.3.1
+      vue: ^3.4.29
+      vue-router: ^4.3.3
+    dependencies:
+      vue: 3.4.31_typescript@4.7.4
+      vue-router: 4.4.3_vue@3.4.31
+    devDependencies:
+      '@rushstack/eslint-patch': 1.10.3
+      '@vitejs/plugin-vue': 5.0.5_vite@5.3.3+vue@3.4.31
+      '@vue/eslint-config-prettier': 9.0.0_eslint@8.57.0+prettier@3.3.3
+      eslint: 8.57.0
+      eslint-plugin-vue: 9.27.0_eslint@8.57.0
+      prettier: 3.3.3
+      vite: 5.3.3
+      vite-plugin-vue-devtools: 7.3.6_7470a76c1c1fc2616a91c7e6c28bf58a
+
+  tutorial/router/5.useLink示例:
+    specifiers:
+      '@rushstack/eslint-patch': ^1.8.0
+      '@vitejs/plugin-vue': ^5.0.5
+      '@vue/eslint-config-prettier': ^9.0.0
+      eslint: ^8.57.0
+      eslint-plugin-vue: ^9.23.0
+      prettier: ^3.2.5
+      vite: ^5.3.1
+      vite-plugin-vue-devtools: ^7.3.1
+      vue: ^3.4.29
+      vue-router: ^4.3.3
+    dependencies:
+      vue: 3.4.31_typescript@4.7.4
+      vue-router: 4.4.3_vue@3.4.31
+    devDependencies:
+      '@rushstack/eslint-patch': 1.10.3
+      '@vitejs/plugin-vue': 5.0.5_vite@5.3.3+vue@3.4.31
+      '@vue/eslint-config-prettier': 9.0.0_eslint@8.57.0+prettier@3.3.3
+      eslint: 8.57.0
+      eslint-plugin-vue: 9.27.0_eslint@8.57.0
+      prettier: 3.3.3
+      vite: 5.3.3
+      vite-plugin-vue-devtools: 7.3.6_7470a76c1c1fc2616a91c7e6c28bf58a
+
+  tutorial/router/6. 导航守卫-综合:
+    specifiers:
+      '@rushstack/eslint-patch': ^1.8.0
+      '@vitejs/plugin-vue': ^5.0.5
+      '@vue/eslint-config-prettier': ^9.0.0
+      eslint: ^8.57.0
+      eslint-plugin-vue: ^9.23.0
+      prettier: ^3.2.5
+      vite: ^5.3.1
+      vite-plugin-vue-devtools: ^7.3.1
+      vue: ^3.4.29
+      vue-router: ^4.3.3
+    dependencies:
+      vue: 3.4.31_typescript@4.7.4
+      vue-router: 4.4.3_vue@3.4.31
+    devDependencies:
+      '@rushstack/eslint-patch': 1.10.3
+      '@vitejs/plugin-vue': 5.0.5_vite@5.3.3+vue@3.4.31
+      '@vue/eslint-config-prettier': 9.0.0_eslint@8.57.0+prettier@3.3.3
+      eslint: 8.57.0
+      eslint-plugin-vue: 9.27.0_eslint@8.57.0
+      prettier: 3.3.3
+      vite: 5.3.3
+      vite-plugin-vue-devtools: 7.3.6_7470a76c1c1fc2616a91c7e6c28bf58a
+
+  tutorial/router/7. 导航守卫-实战:
+    specifiers:
+      '@rushstack/eslint-patch': ^1.8.0
+      '@vitejs/plugin-vue': ^5.0.5
+      '@vue/eslint-config-prettier': ^9.0.0
+      eslint: ^8.57.0
+      eslint-plugin-vue: ^9.23.0
+      prettier: ^3.2.5
+      vite: ^5.3.1
+      vite-plugin-vue-devtools: ^7.3.1
+      vue: ^3.4.29
+      vue-router: ^4.3.3
+    dependencies:
+      vue: 3.4.31_typescript@4.7.4
+      vue-router: 4.4.3_vue@3.4.31
+    devDependencies:
+      '@rushstack/eslint-patch': 1.10.3
+      '@vitejs/plugin-vue': 5.0.5_vite@5.3.3+vue@3.4.31
+      '@vue/eslint-config-prettier': 9.0.0_eslint@8.57.0+prettier@3.3.3
+      eslint: 8.57.0
+      eslint-plugin-vue: 9.27.0_eslint@8.57.0
+      prettier: 3.3.3
+      vite: 5.3.3
+      vite-plugin-vue-devtools: 7.3.6_7470a76c1c1fc2616a91c7e6c28bf58a
+
+  tutorial/router/8. 单路由过渡:
+    specifiers:
+      '@rushstack/eslint-patch': ^1.8.0
+      '@vitejs/plugin-vue': ^5.0.5
+      '@vue/eslint-config-prettier': ^9.0.0
+      eslint: ^8.57.0
+      eslint-plugin-vue: ^9.23.0
+      prettier: ^3.2.5
+      vite: ^5.3.1
+      vite-plugin-vue-devtools: ^7.3.1
+      vue: ^3.4.29
+      vue-router: ^4.3.3
+    dependencies:
+      vue: 3.4.31_typescript@4.7.4
+      vue-router: 4.4.3_vue@3.4.31
+    devDependencies:
+      '@rushstack/eslint-patch': 1.10.3
+      '@vitejs/plugin-vue': 5.0.5_vite@5.3.3+vue@3.4.31
+      '@vue/eslint-config-prettier': 9.0.0_eslint@8.57.0+prettier@3.3.3
+      eslint: 8.57.0
+      eslint-plugin-vue: 9.27.0_eslint@8.57.0
+      prettier: 3.3.3
+      vite: 5.3.3
+      vite-plugin-vue-devtools: 7.3.6_7470a76c1c1fc2616a91c7e6c28bf58a
+
+  tutorial/router/9. 使用Key过渡:
     specifiers:
       '@rushstack/eslint-patch': ^1.8.0
       '@vitejs/plugin-vue': ^5.0.5
