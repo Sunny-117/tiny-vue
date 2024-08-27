@@ -1,17 +1,17 @@
 # tiny-vue
 
-# Vue 3 设计哲学与源码揭秘篇
+## Vue 3 设计哲学与源码揭秘篇
 
 ![](/assets/2024-08-27-14-31-14.png)
 
 ![](/assets/2024-08-27-14-31-01.png)
 
 
-# 手写 Vue 篇
+## 手写 Vue 篇
 
-## Feature
+### Feature
 
-### reactivity
+#### reactivity
 
 - [x] reactive 的实现
 - [x] ref 的实现
@@ -29,7 +29,7 @@
 - [x] 支持 shallowReadonly
 - [x] 支持 proxyRefs
 
-### runtime-core
+#### runtime-core
 
 - [x] 支持组件类型
 - [x] 支持 element 类型
@@ -47,17 +47,17 @@
 - [x] 支持 watchEffect
 
 
-### compiler-core
+#### compiler-core
 - [x] 解析插值
 - [x] 解析 element
 - [x] 解析 text
 
-### runtime-dom
+#### runtime-dom
 - [x] 支持 custom renderer 
 
-### runtime-test
+#### runtime-test
 - [x] 支持测试 runtime-core 的逻辑
 
-### infrastructure
+#### infrastructure
 - [x] support monorepo with pnpm
 
