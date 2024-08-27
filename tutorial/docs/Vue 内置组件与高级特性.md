@@ -1057,6 +1057,873 @@ app.directive('time', {
 })
 ```
 
+
+# Transition
+
+Transition 是 Vue 提供的一个内置组件，作用：会在一个元素或组件**进入**和**离开** DOM 时应用动画。
+
+在 Web 应用中，有一个很常见的需求，就是针对元素的进入或者离开应用动画。
+
+不用 Transition 组件行不行？
+
+当然可以。
+
+1. 不用 Transition 代码示例
+
+   ```html
+   <template>
+     <div>
+       <button @click="show = !show">切换</button>
+       <div :class="['fade', { active: show, leave: !show }]">
+         <h1>动画</h1>
+         <p>淡入淡出</p>
+       </div>
+     </div>
+   </template>
+   
+   <script setup>
+   import { ref } from 'vue'
+   const show = ref(true)
+   </script>
+   
+   <style scoped>
+   .fade {
+     transition: 1s;
+   }
+   
+   .active {
+     opacity: 1;
+   }
+   
+   .leave {
+     opacity: 0;
+   }
+   </style>
+   ```
+
+2. 使用 Transition 代码示例
+
+   ```html
+   <template>
+     <div>
+       <button @click="show = !show">切换</button>
+       <div :class="['fade', { active: show, leave: !show }]">
+         <h1>动画</h1>
+         <p>淡入淡出</p>
+       </div>
+       <Transition>
+         <div v-if="show">
+           <h1>动画</h1>
+           <p>淡入淡出</p>
+         </div>
+       </Transition>
+     </div>
+   </template>
+   
+   <script setup>
+   import { ref } from 'vue'
+   const show = ref(true)
+   </script>
+   
+   <style scoped>
+   .fade {
+     transition: 1s;
+   }
+   
+   .active {
+     opacity: 1;
+   }
+   
+   .leave {
+     opacity: 0;
+   }
+   
+   .v-enter-active,
+   .v-leave-active {
+     transition: opacity 1s;
+   }
+   
+   .v-enter-from,
+   .v-leave-to {
+     opacity: 0;
+   }
+   
+   .v-enter-to,
+   .v-leave-from {
+     opacity: 1;
+   }
+   </style>
+   ```
+
+思考🤔：使用 Transition 带来的好处是什么？
+
+使用 Transition，它会自动的控制一组特定样式类的挂载和移除，这样的话模板就会清爽很多。但是对应的样式类还是要自己来写，因为 Vue无法预知你要如何进入和离开，它只负责在特定时间挂载和移除样式类。
+
+Transition 样式类有 6 个，分别对应两大阶段：
+
+<img src="https://xiejie-typora.oss-cn-chengdu.aliyuncs.com/2024-07-16-061603.png" alt="image-20240716141603030" style="zoom:65%;" />
+
+1. 进入
+   - v-enter-from
+   - v-enter-to
+   - v-enter-active
+2. 离开
+   - v-leave-from
+   - v-leave-to
+   - v-leave-active
+
+以进入为例，Vue 会在元素**插入之前**，自动的挂上 v-enter-from 以及 v-enter-active 类，类似于：
+
+```html
+<div v-if="show" class="v-enter-from v-enter-active">
+  <h1>动画</h1>
+  <p>淡入淡出</p>
+</div>
+```
+
+**元素插入完成后**，会移除 v-enter-from 样式类，然后插入 v-enter-to，类似于：
+
+```html
+<div v-if="show" class="v-enter-to v-enter-active">
+  <h1>动画</h1>
+  <p>淡入淡出</p>
+</div>
+```
+
+也就是说，整个从插入前到插入后，v-enter-active 样式类是一直有的，不过插入前会挂载 v-enter-from，插入后会挂载 v-enter-to
+
+而这 3 个样式类所对应的样式分别是：
+
+- v-enter-from：opacity: 0;
+- v-enter-to：opacity: 1;
+- v-enter-active：transition: opacity 3s;
+
+这就自然出现了淡入淡出的效果。**当整个过渡效果结束后，这 3 个辅助样式类会一并被移除掉**。
+
+
+
+**其他相关细节**
+
+**1. 过渡效果命名**
+
+假设 Transition 传递了 name 属性，那么就不会以 v 作为前缀，而是以 name 作为前缀：
+
+```html
+<Transition name="fade">
+  ...
+</Transition>
+```
+
+- fade-enter-from
+- fade-enter-to
+- fade-enter-active
+
+另外还可以直接指定过渡的类是什么，可以传递这些 props 来指定自定义 class：
+
+- enter-from-class
+- enter-active-class
+- enter-to-class
+- leave-from-class
+- leave-active-class
+- leave-to-class
+
+**2. 搭配animation**
+
+也可以搭配 CSS 的 animation 来使用，这个时候只需要简单的在 *-enter/leave-active 样式类下使用动画即可。
+
+```html
+<template>
+  <div>
+    <button @click="show = !show">切换</button>
+    <Transition name="bounce">
+      <div v-if="show">
+        <h1>动画</h1>
+        <p>淡入淡出</p>
+      </div>
+    </Transition>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+const show = ref(true)
+</script>
+
+<style scoped>
+.fade {
+  transition: 1s;
+}
+
+.active {
+  opacity: 1;
+}
+
+.leave {
+  opacity: 0;
+}
+
+.bounce-enter-active {
+  animation: bounce-in 1s;
+}
+
+.bounce-leave-active {
+  animation: bounce-in 1s reverse;
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+</style>
+```
+
+**3. 常用属性**
+
+1. appear：在初始渲染时就应用过渡
+
+2. mode：用于指定过渡模式，可选值有
+
+   - in-out：新元素先执行过渡，旧元素等待新元素过渡完成后再离开
+   - out-in：旧元素先执行过渡，旧元素过渡完成后新元素再进入
+
+**4. 使用key**
+
+有些时候会存在这么一种情况，就是不存在元素的进入和离开，仅仅是文本节点的更新，此时就不会发生过渡。
+
+要解决这种情况也很简单，添加上 key 即可。
+
+```html
+<template>
+  <div>
+    <button @click="show = !show">切换</button>
+    <Transition name="fade" mode="out-in">
+      <p :key="message">{{ message }}</p>
+    </Transition>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed } from 'vue'
+const show = ref(true)
+const message = computed(() => {
+  return show.value ? 'Hello' : 'World'
+})
+</script>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 1s;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
+}
+</style>
+
+```
+
+
+
+**实战案例**
+
+图片切换效果
+
+
+
+**JS钩子**
+
+除了通过 CSS 来实现动画，常见的实现动画的方式还有就是 JS. Transition 组件也支持 JS 钩子的写法：
+
+```html
+<Transition
+  @before-enter="onBeforeEnter"
+  @enter="onEnter"
+  @after-enter="onAfterEnter"
+  @enter-cancelled="onEnterCancelled"
+  @before-leave="onBeforeLeave"
+  @leave="onLeave"
+  @after-leave="onAfterLeave"
+  @leave-cancelled="onLeaveCancelled"
+>
+  <!-- ... -->
+</Transition>
+
+<script setup>
+const onEnter = (el, done) => {
+  // ...
+}
+</script>
+```
+
+done 方法的作用如下：
+
+1. 通知 Vue 过渡完成：在执行完自定义的进入或离开动画后，调用 done 方法告诉 Vue 当前过渡已完成，从而允许 Vue 继续处理 DOM 更新。
+2. 处理异步操作：如果在过渡期间需要进行异步操作（例如等待数据加载或执行网络请求），可以在异步操作完成后调用 done 方法。
+
+示例如下：
+
+```html
+<template>
+  <div class="container">
+    <div class="btns">
+      <button @click="show = !show">切换</button>
+    </div>
+    <!-- 之前是在特定的时间挂对应的 CSS 样式类 -->
+    <!-- 现在是在特定的时间触发事件处理函数 -->
+    <Transition @before-enter="beforeEnter" @enter="enter" @leave="leave">
+      <p v-if="show" class="box">Hello World</p>
+    </Transition>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+const show = ref(true)
+
+function beforeEnter(el) {
+  // 在元素进入之前，设置初始样式
+  el.style.opacity = 0
+  el.style.transform = 'translateY(-20px)'
+}
+
+function enter(el, done) {
+  // 这里设置 setTimeout 是为了让浏览器有时间应用初始样式
+  // 将这个函数推到下一个事件循环中执行
+  // 避免初始样式和目标样式在同一帧中执行
+  setTimeout(() => {
+    el.style.transition = 'all 1s'
+    el.style.opacity = 1
+    el.style.transform = 'translateY(0)'
+    done()
+  }, 0)
+}
+
+function leave(el, done) {
+  // 因为元素已经在文档中了，直接设置样式即可
+  el.style.transition = 'all 1s'
+  el.style.opacity = 0
+  el.style.transform = 'translateY(-20px)'
+  // 这里的 setTimeout 是为了让动画执行完毕后再调用 done
+  // 保证和过渡时间一致
+  setTimeout(() => {
+    done()
+  }, 1000)
+}
+</script>
+
+<style scoped>
+.container {
+  text-align: center;
+}
+.btns button {
+  margin: 1em 0.5em;
+}
+.box {
+  width: 200px;
+  height: 50px;
+  background-color: #42b983;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto;
+}
+</style>
+```
+
+
+
+相比前面纯 CSS 的方式，JS 钩子在动画控制方面会更加灵活:
+
+1. 精确控制过渡效果
+2. 处理异步操作
+3. 动态计算和条件逻辑
+4. 与第三方库集成
+
+# TransitionGroup
+
+TransitionGroup 仍然是 Vue 里面一个内置的组件。作用：用于解决**多个元素**的过渡问题。
+
+**案例演示**
+
+下面的代码使用 Transition 为项目添加过渡效果，但是没有生效：
+
+```html
+<template>
+  <div class="container">
+    <div class="btns">
+      <button @click="addItem">添加项目</button>
+      <button @click="removeItem">移除项目</button>
+    </div>
+    <Transition name="fade">
+      <ul>
+        <li v-for="item in items" :key="item" class="box">{{ item }}</li>
+      </ul>
+    </Transition>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const items = ref(['内容1', '内容2', '内容3'])
+
+const addItem = () => {
+  items.value.push(`内容${items.value.length + 1}`)
+}
+
+const removeItem = () => {
+  items.value.pop()
+}
+</script>
+
+<style>
+.container {
+  text-align: center;
+}
+.btns button {
+  margin: 1em 0.5em;
+}
+.box {
+  background-color: #42b983;
+  color: white;
+  margin: 5px auto;
+  padding: 10px;
+  width: 200px;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 1s;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
+```
+
+问题🙋 为什么过渡不生效？
+
+答案：因为这里对项目的新增和移除都是针对的 li 元素，但是 Transition 下面是 ul，ul 是一直存在的。
+
+并且 Transition 下面只能有一个根元素。如果存放多个根元素，会报错：\<Transition> expects exactly one child element or component.
+
+此时就可以使用 TransitionGroup 来解决这个问题。代码重构如下：
+
+```html
+<TransitionGroup name="fade" tag="ul">
+  <li v-for="item in items" :key="item" class="box">{{ item }}</li>
+</TransitionGroup>
+```
+
+
+
+**相关细节**
+
+TransitionGroup 可以看作是 Transition 的一个升级版，它支持和 Transition 基本相同的 props、CSS 过渡 class 和 JavaScript 钩子监听器，但有以下几点区别： 
+
+1. 默认情况下，它不会渲染一个容器元素。但可以通过传入 tag prop 来指定一个元素作为容器元素来渲染。 
+2. 过渡模式 mode 在这里**不可用**，因为不再是在互斥的元素之间进行切换。 
+3. 列表中的每个元素都必须有一个独一无二的 key attribute。
+4. CSS 过渡 class **会被应用在列表内的元素上**，而不是容器元素上。
+
+
+
+**实战案例**
+
+使用过渡效果优化待办事项的显示效果
+
+# Teleport
+
+这是 Vue 里面的一个内置组件。作用：将一个组件内部的一部分模板“传送”到该组件的 DOM 结构外层的位置去。
+
+**快速上手**
+
+模态框：理想情况下，模态框的按钮和模态框本身是在同一个组件中，因为它们都与组件的开关状态有关。但这意味着该模态框将与按钮一起渲染在应用 DOM 结构里很深的地方。
+
+例如：
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const open = ref(false)
+</script>
+
+<template>
+  <button @click="open = true">打开模态框</button>
+
+  <div v-if="open" class="modal">
+    <p>模态框内容</p>
+    <button @click="open = false">关闭</button>
+  </div>
+</template>
+
+<style scoped>
+.modal {
+  position: fixed;
+  z-index: 999;
+  top: 20%;
+  left: 50%;
+  width: 300px;
+  margin-left: -150px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+.modal p {
+  padding: 10px;
+  margin: 0;
+  background-color: #f4f4f4;
+  text-align: center;
+}
+</style>
+```
+
+打开该模态框，观察渲染结构：
+
+```html
+<div id="app" data-v-app="">
+  <div class="outer">
+    <h1>Teleport示例</h1>
+    <div>
+      <button data-v-381af681="">打开模态框</button>
+      <div data-v-381af681="" class="modal">
+        <p data-v-381af681="">模态框内容</p>
+        <button data-v-381af681="">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+这里的渲染结构其实是不太合适的。
+
+1. position: fixed 能够相对于浏览器窗口放置有一个条件，那就是不能有任何祖先元素设置了 transform、perspective 或者 filter 样式属性。也就是说如果我们想要用 CSS transform 为祖先节点 \<div class="outer"> 设置动画，就会不小心破坏模态框的布局！
+2. 这个模态框的 z-index 受限于它的容器元素。如果有其他元素与 \<div class="outer"> 重叠并有更高的 z-index，则它会覆盖住我们的模态框。
+
+总结起来，就是**模态框的样式会受到所在位置的祖级元素的影响**。
+
+
+
+以前书写原生 HTML 的时候，模特框一般都是在最外层：
+
+```html
+<body>
+  <div class="container">
+  	<!-- 其他代码 -->
+  </div>
+  <div class="modal"></div>
+</body>
+```
+
+这种场景就可以使用 Teleport
+
+```html
+<Teleport to="body">
+  <div v-if="open" class="modal">
+    <p>模态框内容</p>
+    <button @click="open = false">关闭</button>
+  </div>
+</Teleport>
+```
+
+使用 to 属性来指定要渲染的位置。
+
+
+
+**实战案例**
+
+用户管理模块中，有一个全局的“用户详情”对话框，该对话框可以在页面的任何地方被触发显示。为了使该对话框在 DOM 结构上位于应用的根元素下，并且避免它受到父组件的 CSS 样式影响，可以使用 Teleport 组件将该对话框传送到指定的 DOM 节点。
+
+# 异步组件
+
+异步组件：指的是**在需要时才加载**的组件。
+
+**基本用法**
+
+在 Vue 中，可以通过 defineAsyncComponent 来定义一个异步组件
+
+```js
+import { defineAsyncComponent } from 'vue'
+
+// 之后就可以像使用普通组件一样，使用 AsyncCom 这个异步组件
+const AsyncCom = defineAsyncComponent(()=>{
+  // 这是一个工厂函数，该工厂函数一般返回一个 Promise
+  return new Promise((resolve, reject)=>{
+    resolve(/* 获取到的组件 */)
+  })
+})
+```
+
+ES模块的动态导入返回的也是一个 Promise，所以多数情况下可以和 defineAsyncComponent 配合着一起使用
+
+```js
+import { defineAsyncComponent } from 'vue'
+
+// 之后就可以像使用普通组件一样，使用 AsyncCom 这个异步组件
+const AsyncCom = defineAsyncComponent(()=>{
+ 	import('.../MyCom.vue')
+})
+```
+
+
+
+**快速上手**
+
+```
+src/
+├── components/
+│   ├── Home.vue
+│   └── About.vue
+├── App.vue
+└── main.js
+```
+
+App.vue
+
+```html
+<template>
+  <div id="app">
+    <button @click="currentComponent = Home">访问主页</button>
+    <button @click="currentComponent = About">访问关于</button>
+    <component :is="currentComponent" v-if="currentComponent"></component>
+  </div>
+</template>
+
+<script setup>
+import { shallowRef } from 'vue'
+import Home from './components/Home.vue'
+import About from './components/About.vue'
+const currentComponent = shallowRef(null)
+</script>
+```
+
+在 App.vue 中，通过 import 导入了 Home 和 About，这相当于在应用启动时立即加载所有被导入的组件，这会导致初始加载时间较长，特别是在组件数量较多的时候。
+
+重构 App.vue，使用异步组件来进行优化：
+
+```html
+<template>
+  <div id="app">
+    <button @click="loadComponent('Home')">访问主页</button>
+    <button @click="loadComponent('About')">访问关于</button>
+    <component :is="currentComponent" v-if="currentComponent"></component>
+  </div>
+</template>
+
+<script setup>
+import { shallowRef, defineAsyncComponent } from 'vue'
+// import Home from './components/Home.vue'
+// import About from './components/About.vue'
+
+const currentComponent = shallowRef(null)
+/**
+ *
+ * @param name 组件名
+ */
+const loadComponent = (name) => {
+  currentComponent.value = defineAsyncComponent(() => import(`./components/${name}.vue`))
+}
+</script>
+```
+
+相比之前一开始就通过 import 导入 Home 和 About 组件，现在改为了点击按钮后才会 import，从而实现了懒加载的特性。
+
+
+
+**其他细节**
+
+**1. 全局注册**
+
+与普通组件一样，异步组件可以使用 app.component( ) 全局注册：
+
+```js
+app.component('MyComponent', defineAsyncComponent(() =>
+  import('./components/MyComponent.vue')
+))
+```
+
+**2. 可以在父组件中定义**
+
+```html
+<script setup>
+import { defineAsyncComponent } from 'vue'
+
+// 在父组件里面定义了一个异步组件
+const AdminPage = defineAsyncComponent(() =>
+  import('./components/AdminPageComponent.vue')
+)
+</script>
+
+<template>
+	<!-- 使用异步组件就像使用普通组件一样 -->
+  <AdminPage />
+</template>
+```
+
+**3. 支持的配置项**
+
+defineAsyncComponent 方法支持传入一些配置项，此时不再是传递工厂函数，而是传入一个**配置对象**
+
+```js
+const AsyncComp = defineAsyncComponent({
+  // 加载函数
+  loader: () => import('./Foo.vue'),
+
+  // 加载异步组件时使用的组件
+  // 如果提供了一个加载组件，它将在内部组件加载时先行显示。
+  loadingComponent: LoadingComponent,
+  
+  // 展示加载组件前的延迟时间，默认为200ms
+  // 在网络状况较好时，加载完成得很快，加载组件和最终组件之间的替换太快可能产生闪烁，反而影响用户感受。
+  // 通过延迟来解决闪烁问题
+  delay: 200,
+
+  // 加载失败后展示的组件
+  // 如果提供了一个报错组件，则它会在加载器函数返回的 Promise 抛错时被渲染。
+  errorComponent: ErrorComponent,
+  
+  // 你还可以指定一个超时时间，在请求耗时超过指定时间时也会渲染报错组件。
+  // 默认值是：Infinity
+  timeout: 3000
+})
+```
+
+异步组件经常和内置组件 Suspense 搭配使用，给用户提供更好的用户体验。
+
+# Suspense
+
+Suspense，本意是“悬而未决”的意思，这是 Vue3 新增的一个内置组件，主要用来在组件树中协调对异步依赖的处理。
+
+假设有如下目录结构：
+
+```
+<Suspense>
+└─ <Dashboard>
+   ├─ <Profile>（内容一）
+   │  └─ <FriendStatus>（好友状态组件：有异步的setup方法）
+   └─ <Content>（内容二）
+      ├─ <ActivityFeed> （活动提要：异步组件）
+      └─ <Stats>（统计组件：异步组件）
+```
+
+在这个组件树中有多个嵌套组件，要渲染出它们，首先得解析一些异步资源。
+
+每个异步组件需要处理自己的加载、报错和完成状态。在最坏的情况下，可能会在页面上看到三个旋转的加载状态，然后在不同的时间显示出内容。
+
+有了 \<Suspense> 组件后，我们就可以在等待整个多层级组件树中的各个异步依赖获取结果时，**在顶层统一处理加载状态**。
+
+\<Suspense> 可以等待的异步依赖有两种：
+
+1. 带有**异步 setup( ) 钩子的组件**。这也包含了使用 \<script setup> 时有**顶层 await 表达式的组件**
+
+   ```js
+   export default {
+     async setup() {
+       const res = await fetch(...)
+       const posts = await res.json()
+       return {
+         posts
+       }
+     }
+   }
+   ```
+
+   ```html
+   <script setup>
+   const res = await fetch(...)
+   const posts = await res.json()
+   </script>
+   
+   <template>
+     {{ posts }}
+   </template>
+   ```
+
+2. 异步组件
+
+
+
+在 \<Suspense> 组件中有两个插槽，两个插槽都只允许**一个**直接子节点。
+
+1. \#default：当所有的异步依赖都完成后，会进入**完成**状态，展示默认插槽内容。
+2. \#fallback：如果有任何异步依赖未完成，则进入**挂起**状态，在挂起状态期间，**展示的是后备内容**。
+
+
+
+**快速上手**
+
+```
+App.vue
+└─ Dashboard.vue
+   ├─ Profile.vue
+   │  └─ FriendStatus.vue（组件有异步的 setup）
+   └─ Content.vue
+      ├─ AsyncActivityFeed（异步组件）
+      │  └─ ActivityFeed.vue
+      └─ AsyncStats（异步组件）
+         └─ Stats.vue
+```
+
+实现效果：使用 Suspense 统一显示状态
+
+🤔 思考：假设想要让 Profile 组件内容先显示出来，不等待 Content 组件的异步完成状态，该怎么做？
+
+
+
+**其他细节**
+
+**1. 内置组件嵌套顺序**
+
+\<Suspense> 经常会和 \<Transition>、\<KeepAlive> 搭配着一起使用，此时就涉及到一个**嵌套的顺序**问题，谁在外层，谁在内层。
+
+下面是一个模板：
+
+```html
+<RouterView v-slot="{ Component }">
+  <template v-if="Component">
+    <Transition mode="out-in">
+      <KeepAlive>
+        <Suspense>
+          <!-- 主要内容 -->
+          <component :is="Component"></component>
+
+          <!-- 加载中状态 -->
+          <template #fallback>
+            正在加载...
+          </template>
+        </Suspense>
+      </KeepAlive>
+    </Transition>
+  </template>
+</RouterView>
+```
+
+你可以根据实际开发需求，删减你不需要的组件。
+
+**2. 事件**
+
+\<Suspense> 组件会触发三个事件：
+
+- pending：在进入挂起状态时触发
+- resolve：在 default 插槽完成获取新内容时触发
+- fallback：显示后备内容的时候触发
+
+
 # 「❤️ 感谢大家」
 
 如果你觉得这篇内容对你挺有有帮助的话：

@@ -111,11 +111,13 @@ importers:
       '@vue/eslint-config-prettier': ^9.0.0
       eslint: ^8.57.0
       eslint-plugin-vue: ^9.23.0
+      gsap: ^3.12.5
       prettier: ^3.2.5
       vite: ^5.3.1
       vite-plugin-vue-devtools: ^7.3.1
       vue: ^3.4.29
     dependencies:
+      gsap: 3.12.5
       vue: 3.4.31_typescript@4.7.4
     devDependencies:
       '@rushstack/eslint-patch': 1.10.3
@@ -3340,6 +3342,10 @@ packages:
   /graphemer/1.4.0:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
     dev: true
+
+  /gsap/3.12.5:
+    resolution: {integrity: sha512-srBfnk4n+Oe/ZnMIOXt3gT605BX9x5+rh/prT2F1SsNJsU1XuMiP0E2aptW481OnonOGACZWBqseH5Z7csHxhQ==}
+    dev: false
 
   /hammerjs/2.0.8:
     resolution: {integrity: sha512-tSQXBXS/MWQOn/RKckawJ61vvsDpCom87JgxiYdGwHdOa0ht0vzUWDlfioofFCRU0L+6NGDt6XzbgoJvZkMeRQ==}
