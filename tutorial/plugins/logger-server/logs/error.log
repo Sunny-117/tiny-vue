@@ -1,0 +1,14 @@
+[2024-08-27T06:20:46.234Z] native event handler: 这是一个错误呀！！！
+Error: 这是一个错误呀！！！
+    at triggerError (http://127.0.0.1:5173/src/App.vue:23:9)
+    at callWithErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/vue.js?v=5ad85592:1663:19)
+    at callWithAsyncErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/vue.js?v=5ad85592:1670:17)
+    at HTMLButtonElement.invoker (http://127.0.0.1:5173/node_modules/.vite/deps/vue.js?v=5ad85592:10305:5)
+
+[2024-08-27T06:20:46.599Z] native event handler: 这是一个错误呀！！！
+Error: 这是一个错误呀！！！
+    at triggerError (http://127.0.0.1:5173/src/App.vue:23:9)
+    at callWithErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/vue.js?v=5ad85592:1663:19)
+    at callWithAsyncErrorHandling (http://127.0.0.1:5173/node_modules/.vite/deps/vue.js?v=5ad85592:1670:17)
+    at HTMLButtonElement.invoker (http://127.0.0.1:5173/node_modules/.vite/deps/vue.js?v=5ad85592:10305:5)
+
