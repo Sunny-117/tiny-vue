@@ -46,7 +46,7 @@ npm install @vueuse/core
 
 然后就可以在项目中引入并使用：
 
-```vue
+```html
 <template>
   <div>{{ x }}</div>
   <div>{{ y }}</div>
@@ -96,7 +96,7 @@ npm install vuedraggable@4.0.0
 
 安装后可以从这个库中导入一个**组件**：
 
-```vue
+```html
 <template>
   <draggable 
      v-model="myArray" 
@@ -151,7 +151,7 @@ npm install vue-drag-resize
 
 基本示例核心代码：
 
-```vue
+```html
 <template>
   <div id="app">
     <VueDragResize
@@ -213,7 +213,7 @@ npm i vue-chartjs chart.js
 
 基础示例核心代码：
 
-```vue
+```html
 <template>
   <Bar :data="data" :options="options" />
 </template>
@@ -521,7 +521,7 @@ app.mount('#app');
 
 之后在组件中使用 v-lazy 指令：
 
-```vue
+```html
 <template>
 	<!-- 使用v-lazy这个指令，指令对应的值为图片的src -->
   <img v-lazy="'path/to/your/image.jpg'" alt="description">
@@ -530,7 +530,7 @@ app.mount('#app');
 
 指令对应的值也可以是一个对象，在对象中可以指定 loading 和 error 图片
 
-```vue
+```html
 <template>
   <img v-lazy="{ src: 'your image url', loading: 'your loading image url', error: 'your error image url' }">
 </template>
@@ -583,7 +583,7 @@ observerOptions 用于配置 IntersectionObserver，通过配置 observerOptions
 
 前面注册方式为 **全局注册**，另一种是 **局部注册**，通过 **useLazyload** 在单个组件中注册，从而局部使用懒加载功能。
 
-```vue
+```html
 <template>
   <img ref="lazyRef" class="image" width="100" />
 </template>
@@ -635,7 +635,7 @@ const lazyRef = useLazyload(src, {
 
 在图片元素上，这些状态会通过 lazy 属性来表示。可以利用这个属性，在 CSS 中定义不同状态下图片的样式。
 
-```vue
+```html
 <img src="..." lazy="loading">
 <img src="..." lazy="loaded">
 <img src="..." lazy="error">
