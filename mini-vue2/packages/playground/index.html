@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+  </head>
+  <body>
+    <div id="app">
+      <p>姓名：{{name}}</p>
+      <p>年龄：{{age}} <button onclick="vm.age++">增加年龄</button></p>
+      <dl>
+        <dt>住址</dt>
+        <dd>省份：{{addr.province}}</dd>
+        <dd>城市：{{addr.city}}</dd>
+      </dl>
+      修改省份： <input type="text" oninput="vm.addr.province = this.value" />
+    </div>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

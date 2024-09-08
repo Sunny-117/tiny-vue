@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <my-button></my-button>
+  </div>
+  <!-- 为什么要拆分成小的组件 1）实现复用  2) 方便维护 3) 编写组件能拆分尽量拆分 vue的更新问题 每个组件一个watcher  可以减少比对-->
+  <script type="module">
+    import Vue from '@sunny-117/mini-vue2'
+    // 全局组件  
+    Vue.component('my-button', { // Vue.extend
+      data() { // 子组件的数据应该是一个函数 否则会有 数据共享的问题
+        return { a: 1 }
+      },
+      template: '<button>{{a}}</button>',
+      created() {
+        console.log('child created')
+      },
+      beforeCreate() {
+        console.log('child beforeCreate')
+      },
+      beforeMount() {
+        console.log('child beforeMount')
+      },
+      mounted() {
+        setTimeout(() => {
+          this.a = 100;
+        }, 1000);
+      },
+    });
+    // 组件的合并策略, 就近策略 我们可以将全局组件放到原型链上
+    let vm = new Vue({
+      el: '#app',
+      created() {
+        console.log('parent created')
+      },
+      beforeCreate() {
+        console.log('parent beforeCreate')
+      },
+      beforeMount() {
+        console.log('parent beforeMount')
+      },
+      mounted() {
+        console.log('parent mounted')
+      },
+      components: {
+        aa: {
+          template: '<div>hello </div>'
+        },
+        bb: {
+          template: '<div>world</div>'
+        }
+      },
+      data: {
+        name: 'zf',
+        firstName: '张',
+        lastName: '三'
+      }
+    });
+    //console.log(vm); // 合并父子组件的components属性 通过原型链来进行查找
+    // 组件有可能是一个对象 还有可能是一个构造函数，组件的属性中多了一个 hook属性，并且包含着组件的初始化方法
+
+  </script>
+</body>
+
+</html>

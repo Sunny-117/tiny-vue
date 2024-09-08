@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="./dist/umd/vue.js"></script>
+    <div id="app">
+        {{a}}
+    </div>
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            data: { a:{a:{a:1}}},
+            watch: {
+                // 1.直接key value 
+                // 2.写成key 和数组的方式
+                // 3.监控当前实例上的方法
+                // 4.handler的写法 
+                'a.a.a':{
+                    handler(newValue,oldValue){
+                        console.log(newValue,oldValue, '内部watch')
+                    }
+                },
+            }
+        });
+        vm.$watch(()=>{
+            return vm.a.a.a; // 老值
+        },(newValue,oldValue)=>{
+            console.log(newValue,oldValue,'自己写的$watch')
+        })
+        vm.a = {a:{a:'2'}}; // 会触发set方法 =》 set方法会调用watcher.run
+    </script>
+</body>
+
+</html>

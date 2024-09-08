@@ -1,0 +1,23 @@
+{
+  "name": "mini-vue2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/mini-vue2.cjs.js",
+  "module": "./dist/mini-vue2.esm.js",
+  "type": "module",
+  "scripts": {
+    "build": "rollup -c -w"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.22.5",
+    "babel": "^6.23.0",
+    "rollup": "^3.25.1",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "shared": "link:../shared"
+  }
+}

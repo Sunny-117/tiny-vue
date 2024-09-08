@@ -1,0 +1,23 @@
+{
+  "name": "@sunny-117/mini-vue2",
+  "version": "0.0.1",
+  "description": "",
+  "main": "./dist/Vue.cjs.js",
+  "module": "./dist/Vue.esm.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "dev": "rollup -c -w"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^11.1.6",
+    "rollup": "^2.23.0",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-dts": "^6.1.0",
+    "rollup-plugin-serve": "^1.0.3",
+    "tslib": "^2.6.2",
+    "typescript": "^5.3.3"
+  }
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app" style="width:500px;margin:0 auto">
+        <textarea style="width:500px;height:300px" v-model="content"></textarea>
+        <button @click="run">运行组件</button>
+
+
+        <div id="run-result"></div>
+    </div>
+
+   
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+        // 组件通信的n种方法
+        new Vue({
+            el:'#app',
+            data:{
+                content:''
+            },
+            methods:{
+                getSource(type){
+                    const reg = new RegExp(`<${type}[^>]*>`);
+                    let content = this.content;
+                    let matches = content.match(reg);
+                    if(matches){
+                        console.log(matches[0].length)
+                        let start = content.indexOf(matches[0]) + matches[0].length;
+                        let end = content.lastIndexOf(`</${type}`);
+                        return content.slice(start,end)
+                        // return content.slice(content.indexOf(matches[0]))
+                    }
+                },
+                run(){
+                    // Vue.extend 内部会继承Vue的构造函数，我们可以自己进行实例化操作，并且手动挂载到指定的位置
+                    // 获取不同的脚本 script,template,css
+                    let template = this.getSource('template');
+                    let script = this.getSource('script').replace(/export default/,'return');
+
+                    let styleCss = this.getSource('style');
+                    let obj = new Function(script)();
+
+                    obj.template = template;
+
+                    // 弹框组件
+                    let ChildComponent = Vue.extend(obj);
+                    let styleEle = document.createElement('style');
+                    styleEle.innerHTML = styleCss;
+                    document.body.appendChild(styleEle);
+                    new ChildComponent().$mount('#run-result');
+
+                    // vue3  ast语法树来解析的
+                }
+            }
+        })
+
+
+    </script>
+</body>
+</html>
