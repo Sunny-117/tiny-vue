@@ -87,4 +87,36 @@ describe("reactive", () => {
     // expect(observed2).toBe(observed) // ? 报错
     expect(observed2).toEqual(observed)
   })
+  test('observing the same value multiple times should return same Proxy', () => {
+    const original = { foo: 1 }
+    const observed = reactive(original)
+    const observed2 = reactive(original)
+    expect(observed2).toBe(observed)
+  })
+  test('should not pollute original object with Proxies', () => {
+    const original: any = { foo: 1 }
+    const original2 = { bar: 2 }
+    const observed = reactive(original)
+    const observed2 = reactive(original2)
+    observed.bar = observed2
+    // ? 不能用toBe
+    expect(observed.bar).toEqual(observed2)
+    expect(original.bar).toEqual(original2)
+  })
+  // fix: https://github.com/vuejs/core/issues/1246
+  test.only('mutation on objects using reactive as prototype should not trigger', () => {
+    const obj = { foo: 1 };
+    const observed = reactive(obj)
+    const original = Object.create(observed)
+    let dummy
+    effect(() => (dummy = original.foo))
+    expect(dummy).toBe(1)
+    observed.foo = 2
+    expect(dummy).toBe(2)
+    // original.foo = 3
+    // expect(dummy).toBe(2)
+    // original.foo = 4
+    // expect(dummy).toBe(2)
+  })
+
 });

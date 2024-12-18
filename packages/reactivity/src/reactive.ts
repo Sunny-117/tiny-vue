@@ -8,6 +8,7 @@ import {
 export const enum ReactiveFlags {
   IS_REACTIVE = "__v_isReactive",
   IS_READONLY = "__v_isReadonly",
+  RAW = '__v_raw',
 }
 
 export const reactiveMap = new WeakMap()
@@ -28,11 +29,11 @@ export function shallowReadonly(raw) {
 }
 
 export function isReactive(value) {
-  return !!value[ReactiveFlags.IS_REACTIVE];
+  return !!(value && value[ReactiveFlags.IS_REACTIVE]);
 }
 
 export function isReadonly(value) {
-  return !!value[ReactiveFlags.IS_READONLY];
+  return !!(value && value[ReactiveFlags.IS_READONLY]);
 }
 
 export function isProxy(value) {
