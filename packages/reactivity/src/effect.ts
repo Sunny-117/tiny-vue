@@ -56,7 +56,6 @@ export function track(target, key) {
     depsMap = new Map();
     targetMap.set(target, depsMap);
   }
-
   let dep = depsMap.get(key);
   if (!dep) {
     dep = new Set();
@@ -80,6 +79,7 @@ export function isTracking() {
 
 export function trigger(target, key) {
   let depsMap = targetMap.get(target);
+  if(!depsMap) return;
   let dep = depsMap.get(key);
   triggerEffects(dep);
 }
