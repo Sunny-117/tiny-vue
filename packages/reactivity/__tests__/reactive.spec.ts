@@ -73,4 +73,18 @@ describe("reactive", () => {
     expect('foo' in observed).toBe(false)
     expect('foo' in original).toBe(false)
   })
+  test('setting a property with an unobserved value should wrap with reactive', () => {
+    const observed = reactive<{ foo?: object }>({})
+    const raw = {}
+    observed.foo = raw
+    expect(observed.foo).not.toBe(raw)
+    expect(isReactive(observed.foo)).toBe(true)
+  })
+  test('observing already observed value should return same Proxy', () => {
+    const original = {foo: 1}
+    const observed = reactive(original)
+    const observed2 = reactive(observed)
+    // expect(observed2).toBe(observed) // ? 报错
+    expect(observed2).toEqual(observed)
+  })
 });

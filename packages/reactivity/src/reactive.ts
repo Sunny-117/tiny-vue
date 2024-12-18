@@ -10,16 +10,21 @@ export const enum ReactiveFlags {
   IS_READONLY = "__v_isReadonly",
 }
 
-export function reactive(raw) {
-  return createReactiveObject(raw, mutableHandlers);
+export const reactiveMap = new WeakMap()
+export const shallowReactiveMap = new WeakMap()
+export const readonlyMap = new WeakMap()
+export const shallowReadonlyMap = new WeakMap()
+
+export function reactive<T extends object>(raw: T) {
+  return createReactiveObject(raw, mutableHandlers, reactiveMap);
 }
 
 export function readonly(raw) {
-  return createReactiveObject(raw, readonlyHandlers);
+  return createReactiveObject(raw, readonlyHandlers, readonlyMap);
 }
 
 export function shallowReadonly(raw) {
-  return createReactiveObject(raw, shallowReadonlyHandlers);
+  return createReactiveObject(raw, shallowReadonlyHandlers, shallowReactiveMap);
 }
 
 export function isReactive(value) {
@@ -34,11 +39,16 @@ export function isProxy(value) {
   return isReactive(value) || isReadonly(value);
 }
 
-function createReactiveObject(target, baseHandles) {
+function createReactiveObject(target, baseHandles, proxyMap) {
   if (!isObject(target)) {
     console.warn(`target ${target} 必须是一个对象`);
     return target
   }
-
-  return new Proxy(target, baseHandles);
+  const existingProxy = proxyMap.get(target)
+  if (existingProxy) {
+    return existingProxy
+  }
+  const proxy = new Proxy(target, baseHandles);
+  proxyMap.set(target, proxy)
+  return proxy;
 }
