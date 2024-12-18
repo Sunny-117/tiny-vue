@@ -53,3 +53,9 @@ function createReactiveObject(target, baseHandles, proxyMap) {
   proxyMap.set(target, proxy)
   return proxy;
 }
+
+export function toRaw<T>(observed: T): T {
+  const raw = observed && observed[ReactiveFlags.RAW]
+  // 暂时没处理嵌套情况
+  return raw ? raw : observed
+}

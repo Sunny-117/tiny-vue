@@ -1,4 +1,4 @@
-import { isReactive, reactive } from "../src/reactive";
+import { isReactive, reactive, toRaw } from "../src/reactive";
 import { effect } from '../src/effect';
 describe("reactive", () => {
   it("happy path", () => {
@@ -104,7 +104,7 @@ describe("reactive", () => {
     expect(original.bar).toEqual(original2)
   })
   // fix: https://github.com/vuejs/core/issues/1246
-  test.only('mutation on objects using reactive as prototype should not trigger', () => {
+  test('mutation on objects using reactive as prototype should not trigger', () => {
     const obj = { foo: 1 };
     const observed = reactive(obj)
     const original = Object.create(observed)
@@ -117,6 +117,12 @@ describe("reactive", () => {
     // expect(dummy).toBe(2)
     // original.foo = 4
     // expect(dummy).toBe(2)
+  })
+  test('toRaw', () => {
+    const original = { foo: 1 }
+    const observed = reactive(original)
+    expect(toRaw(observed)).toBe(original)
+    expect(toRaw(original)).toBe(original)
   })
 
 });
