@@ -1,0 +1,19 @@
+{
+    "name": "@vue/compiler-core",
+    "version": "1.0.0",
+    "module": "dist/compiler-core.esm-bundle.js",
+    "unpkg": "dist/compiler-core.global.js",
+    "buildOptions": {
+        "name": "CompilerCore",
+        "formats": [
+            "esm-bundler",
+            "esm-browser",
+            "cjs",
+            "global"
+        ]
+    },
+    "dependencies": {
+        "@vue/reactivity": "workspace:*",
+        "@vue/shared": "workspace:*"
+    }
+}

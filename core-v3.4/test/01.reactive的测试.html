@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app"></div>
+
+  <script type="module">
+    // import { reactive, effect } from '../../../node_modules/@vue/reactivity/dist/reactivity.esm-browser.js'
+    import { reactive, effect } from './reactivity.js'
+    let obj = { name: 'zs', age: 19 }
+    // 正常写法
+
+    const state1 = reactive(obj)
+    console.log('state1=>', state1)
+
+    // 传入非对象
+    const state2 = reactive('hello')
+    console.log('state2=>', state2)
+
+    // 已经代理过
+    const state3 = reactive(state1)
+    console.log('state3=>', state3)
+
+    // 同一个对象被代理多次
+    const state4 = reactive(obj)
+    console.log('state4=>', state4)
+
+
+  </script>
+</body>
+
+</html>

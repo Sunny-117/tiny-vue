@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script type="module">
+        import { h, render, Text, Fragment } from './runtime-dom.esm.js'
+        // import { createRenderer, h, render, Text, Fragment } from '/node_modules/@vue/runtime-dom/dist/runtime-dom.esm-browser.js'
+
+        const ChildComponent = {
+            props: {
+                message: String
+            },
+            render() {
+                return h(Text, {}, this.message)
+            }
+        }
+        const VueComponent = {
+            data() { //防止data数据被共享 ，如果是一个对象可能就会涉及到这个对象被共享给多个组件来使用
+                return { flag: true }
+            },
+            props: {
+                a: Object,
+                b: Number
+            },
+            render(proxy) {
+                return h(Fragment, [h('button', { onClick: () => this.flag = !this.flag }, '组建更新'), h(ChildComponent, { message: this.flag ? 'ok' : 'no ok' })])
+            }
+        }
+
+
+        render(h(VueComponent, { a: 'a', b: 2, c: 1 }), app);
+    </script>
+</body>
+
+</html>

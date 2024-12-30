@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script type="module">
+        import { h, render } from './runtime-dom.esm.js'
+        const VDom1 = h('div', { key: 'd' }, [
+            h('div', { key: 'd' }, 'd'),
+            h('div', { key: 'e' }, 'e'),
+            h('div', { key: 'a' }, 'a'),
+            h('div', { key: 'a' }, 'b'),
+            h('div', { key: 'c' }, 'c'),
+        ])
+        const VDom2 =
+            h('div', { key: 'd', style: { color: 'blue' } }, 'p')
+        render(VDom1, app);
+
+        setTimeout(() => {
+            render(VDom2, app);
+        }, 2000)
+    </script>
+</body>
+
+</html>

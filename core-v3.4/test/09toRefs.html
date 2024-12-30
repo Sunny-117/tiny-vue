@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script type="module">
+    // vue -> runtime-dom -> runtime-core -> reactivity
+    // import { reactive, proxyRefs, toRefs, effect, watch, computed, watchEffect } from '../../../node_modules/@vue/runtime-dom/dist/runtime-dom.esm-browser.js'
+    import { reactive, proxyRefs, toRefs, effect, watch, watchEffect, computed, ref } from './reactivity.js'
+
+    const state = reactive({ name: 'zs', age: 30 })
+    // let person = { ...state }
+    let person = proxyRefs({ ...toRefs(state) }); // 解构的时候将所有的属性都转换成ref即可
+    effect(() => {
+      document.body.innerHTML = person.name + '今年' + person.age + '岁了'
+    })
+    setTimeout(() => {
+      person.age = 31;
+    }, 1000)
+
+
+
+  </script>
+</body>
+
+</html>

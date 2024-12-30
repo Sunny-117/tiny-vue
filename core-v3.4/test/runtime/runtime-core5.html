@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>runtime-dom5</title>
+  <style>
+    body {
+      background: #262627;
+    }
+
+    #app {
+      color: aliceblue;
+      font-size: 30px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app"></div>
+
+  <script type="module">
+    // import { render, h, Text, Fragment } from "/node_modules/vue/dist/vue.runtime.esm-browser.js";
+
+    import { render, h, Text, Fragment } from "../packages/runtime-dom/dist/runtime-dom.js";
+
+    const VueComponent = {
+      data() {
+        return { name: 'tang', age: 24 }
+      },
+      render() {
+
+        setTimeout(() => {
+          this.age++
+        }, 1000);
+
+        return h("div", [
+          h("Text", 'hiuohuihsdiuf' + this.name),
+          h('a', this.age)
+        ])
+      }
+    }
+
+    render(h(VueComponent), app)
+  </script>
+</body>
+
+</html>

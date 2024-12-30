@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app"></div>
+
+  <script type="module">
+    // vue -> runtime-dom -> runtime-core -> reactivity
+    // import { reactive, effect, watch, computed, watchEffect } from '../../../node_modules/@vue/runtime-dom/dist/runtime-dom.esm-browser.js'
+    import { reactive, effect, watch, watchEffect, computed } from './reactivity.js'
+    const fullname = computed({
+      get() {
+        console.log('getter')
+        return state.firstname + state.lastname
+      },
+      set(val) { // 改计算属性可以导致修改其他属性
+        console.log(val)
+      }
+    })
+    const state = reactive({ firstname: 'a', lastname: 'b', fullname })
+
+    console.log('state=>', state)
+    console.log('fullname=>', fullname, fullname.value)
+
+    // 计算属性的应用场景， 主要是根据其他的数据进行衍生数据的
+    // 计算属性默认是懒执行的，如果依赖的值不发生变化不会重新执行 dirty 缓存
+    // 计算属性的值自身无法修改
+    // 依赖的值变化了，后续再取值可以获取到新值
+
+    effect(() => {
+      app.innerHTML = state.fullname
+    })
+
+    setTimeout(() => {
+      state.firstname = 'hello'
+    }, 1000)
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app"></div>
+
+  <script type="module">
+    const obj = {name: 'demo'}
+    const state = reactive(obj)
+    effect(()=>{
+      app.innerHTML = state.name;
+      state.name = Math.random() // 如果本次在执行effect的时候更新了数据,不会触发effect更新
+      // 源码利用this._runnings判断;
+    })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>runtime-dom</title>
+  <style>
+    body {
+      background: #262627;
+    }
+
+    #app {
+      color: aliceblue;
+      font-size: 30px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app"></div>
+
+  <script type="module">
+    // import { h } from "/node_modules/@vue/runtime-dom/dist/runtime-dom.esm-browser.js";
+
+    import { render, h } from "../packages/runtime-dom/dist/runtime-dom.js";
+
+    let ele1 = h(
+      "div",
+      { style: { color: 'red' } },
+      h('div', 'a'), h('div', 'bb'), h('div', 'ccc'));
+
+    render(ele1, app)
+    console.log(ele1);
+  </script>
+</body>
+
+</html>

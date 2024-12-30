@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script type="module">
+        // import { h, render } from './runtime-dom.esm.js'
+        import { ref, createRenderer, h, render, Text } from '/node_modules/@vue/runtime-dom/dist/runtime-dom.esm-browser.js'
+
+        const My = {
+            props: { address: String },
+            render() { return h('div', this.address) }
+        }
+        const VueComponent = {
+            props: {
+                address: String
+            },
+            setup(props) {
+                const name = ref('zs');
+                return {
+                    name,
+                    address: props.address
+                }
+            },
+            render() {
+                return h(Text, `${this.address},${this.name}`)
+            }
+        }
+        render(h(VueComponent, { address: '回龙观' }), app);
+    </script>
+</body>
+
+</html>

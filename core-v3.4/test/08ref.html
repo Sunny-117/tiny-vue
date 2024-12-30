@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app"></div>
+
+  <script type="module">
+    // vue -> runtime-dom -> runtime-core -> reactivity
+    // import { reactive, effect, watch, computed, watchEffect } from '../../../node_modules/@vue/runtime-dom/dist/runtime-dom.esm-browser.js'
+    import { reactive, effect, watch, watchEffect, computed, ref } from './reactivity.js'
+
+
+    let flag = ref(true); // 装包，就是将变量在包装一层，里面还要增加依赖收集的功能
+
+
+    effect(() => {
+      app.innerHTML = flag.value
+    })
+
+
+    setTimeout(() => {
+      flag.value = false
+    }, 1000)
+  </script>
+</body>
+
+</html>

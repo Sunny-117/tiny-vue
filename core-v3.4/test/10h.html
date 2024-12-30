@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script type="module">
+        // vue在runtime-dom中提供的一个方法， 这个方法运行用户自定义渲染方式
+        // mpvue -> 基于vue改造了一个小程序版本  this.setData({})  基于vue源码进行了改造
+        // 针对canvas 来进行渲染， 自己定义渲染方式
+        // import { createRenderer, h, render } from '/node_modules/@vue/runtime-dom/dist/runtime-dom.esm-browser.js'
+
+        // 虚拟dom好处就是跨平台 {div , 属性 ，内容是什么} 可以做diff方法
+        // 我们的核心就是利用渲染器来渲染我们的虚拟dom
+        // const VDom = h('div', 'hello zs')
+        // const renderer = createRenderer({
+        //     insert(element, container) {
+        //         container.appendChild(element)
+        //     },
+        //     createElement(element) {
+        //         return document.createElement(element)
+        //     },
+        //     setElementText(element, text) {
+        //         element.innerHTML = text
+        //     }
+        // });
+        // renderer.render()
+        import { h, render } from './runtime-dom.esm.js'
+        // const VDom = h('div')
+        // const VDom = h('div', h('span'))
+        // const VDom = h('div', { style: { color: 'red' } })
+        // const VDom = h('div', [h('span'), h('span')])
+        // const VDom = h('div', h('span'), h('span')) // 错误写法会被认为第二个参数是属性
+        // const VDom = h('div', {}, [h('span'), h('span')])
+        // const VDom = h('div', {}, h('span'), h('span'))
+        // const VDom = h('div', 'hello zs')
+        // const VDom = h('div',{} ,'hello zs')
+        // const VDom = h('div', {},['hello zs', 'hello zs', 'hello zs'])
+        // const VDom = h('div', {}, 'hello zs', 'hello zs', 'hello zs')
+
+        const VDom1 = h('div', [
+            h('div', { key: 'd' }, 'd'),
+            h('div', { key: 'e' }, 'e'),
+            h('div', { key: 'a' }, 'a'),
+            h('div', { key: 'a' }, 'b'),
+            h('div', { key: 'c' }, 'c'),
+
+        ])
+        render(VDom1, app); // render 方法是非常常用，我们在vue中想渲染一个弹框组件，需要渲染到body
+    
+    </script>
+</body>
+
+</html>

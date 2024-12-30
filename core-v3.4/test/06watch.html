@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app"></div>
+
+  <script type="module">
+    // vue -> runtime-dom -> runtime-core -> reactivity
+    // import { reactive, effect, watch, watchEffect } from '../../../node_modules/@vue/runtime-dom/dist/runtime-dom.esm-browser.js'
+    import { reactive, effect, watch, watchEffect } from './reactivity.js'
+    let obj = { flag: true, name: 'zs', age: 19 }
+    // 正常写法
+
+
+    const state = reactive(obj)
+
+
+    // watch(state, (newVal, oldVal) => {
+    //   console.log('数据变化了', newVal, oldVal)
+    // }, { flush: 'sync' }); // 默认先标记成同步，后面说异步geng'xin
+    // state.name = 'lisi'
+    // console.log('数据变化outer')
+
+
+    // watchEffect(() => {
+    //   // 自动收集依赖
+    //   console.log('inner')
+    //   app.innerHTML = state.name
+    // }, { flush: 'sync' })
+    // state.name = 'lisi'
+    // console.log('数据变化outer')
+
+
+    // watch 大部分的场景可能是，监控数据变化，变化后发送请求
+    // 模拟一个输入框的场景， 百度搜索框
+    // 1 -> 发送请求  2s后才返回
+    // 2 -> 发送请求  1s后返回
+
+    // 以最终的1为准，实际上应该用2的结果
+
+    let timer = 14000;
+    function getData(data) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(data)
+        }, timer -= 1000)
+      })
+    }
+
+
+    // 什么是闭包?  我定义函数的作用域和执行函数的作用域不是同一个
+    watch(() => state.age, async function (newVal, oldVal, onCleanup) {
+      let flag = true
+      onCleanup(function () {
+        flag = false
+      })
+
+      let r = await getData(newVal);
+
+      flag && (app.innerHTML = r)
+    }, { flush: 'sync' })
+    // 模拟用户输入1234
+    state.age = 11; // 请求2s返回 100
+    state.age = 111; // 请求2s返回 200
+    state.age = 1111; // 请求2s返回 200
+  </script>
+</body>
+
+</html>

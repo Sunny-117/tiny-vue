@@ -1,0 +1,26 @@
+{
+  "name": "vue3.4",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node scripts/dev.js runtime-core -f esm",
+    "build": "node scripts/build.js"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "esbuild": "^0.24.0",
+    "minimist": "^1.2.8",
+    "typescript": "^5.6.3",
+    "@rollup/plugin-commonjs": "^24.1.0",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.2",
+    "execa": "4",
+    "rollup": "^3.20.2",
+    "rollup-plugin-typescript2": "^0.34.1"
+  }
+}

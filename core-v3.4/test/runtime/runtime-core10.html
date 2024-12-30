@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>runtime-dom10</title>
+  <style>
+    body {
+      background: #262627;
+    }
+
+    #app {
+      color: aliceblue;
+      font-size: 30px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app"></div>
+
+  <script type="module">
+    // import {
+    //   render,
+    //   h,
+    //   Text,
+    //   Fragment,
+    //   ref,
+    //   onBeforeMount,
+    //   onMounted,
+    //   onBeforeUpdate,
+    //   onUpdated,
+    //   provide,
+    //   inject
+    // } from "/node_modules/vue/dist/vue.runtime.esm-browser.js";
+
+    import {
+      render,
+      h,
+      Text,
+      Fragment,
+      ref,
+      onBeforeMount,
+      onMounted,
+      onBeforeUpdate,
+      onUpdated,
+      getCurrentInstance,
+      provide,
+      inject
+    } from "../packages/runtime-dom/dist/runtime-dom.js";
+
+    const P3 = {
+      setup(props) {
+        const name = inject("name");
+        const age = inject("age", 20);
+        return () => h("div", [name.value, age]);
+      }
+    }
+
+    const P2 = {
+      render() {
+        return h(P3)
+      }
+    }
+
+    const P1 = {
+      setup(props) {
+        const name = ref("guang");
+        provide("name", name);
+        return () => h(P2);
+      }
+    }
+
+    render(h(P1), app)
+  </script>
+</body>
+
+</html>

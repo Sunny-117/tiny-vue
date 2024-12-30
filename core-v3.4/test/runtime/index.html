@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+    body {
+      background: #262627;
+    }
+
+    #app {
+      color: aliceblue;
+      font-size: 30px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app"></div>
+
+  <script type="module">
+    import { reactive, effect, ref, toRef, toRefs, proxyRefs, computed, watch, watchEffect } from "../packages/reactivity/dist/reactivity.js";
+
+    let obj = { name: "guang", age: 18, flag: true, address: { n: 8888 } };
+
+    const state = reactive(obj);
+
+    const name = ref('guang')
+
+    const unwatch = watch(() => state.name, (oldVal, newVal) => {
+      console.log(oldVal, newVal);
+    }, { deep: true, immediate: true })
+
+    //  watch(() => {
+    //   console.log(state.name + state.age);
+    // })
+
+    unwatch();
+
+    setTimeout(() => {
+      state.name = "888888"
+    }, 1000)
+  </script>
+</body>
+
+</html>
