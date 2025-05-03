@@ -1,5 +1,7 @@
 import { createVNodeCall, NodeTypes } from "../ast";
-
+/**
+ * <div></div> -> _createElementVNode('div')
+ */
 export function transformElement(node, context) {
   if (node.type === NodeTypes.ELEMENT) {
     return () => {

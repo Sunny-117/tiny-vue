@@ -1,6 +1,9 @@
 import { NodeTypes } from "../ast";
 import { isText } from "../utils";
 
+/**
+ * 处理"+"："hi,{{message}}"->"hi," + _toDisplayString(_ctx.message)
+ */
 export function transformText(node) {
   // 处理："hi,{{message}}"->"hi," + _toDisplayString(_ctx.message)=> 中间的+
   if (node.type === NodeTypes.ELEMENT) {
