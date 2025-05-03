@@ -16,11 +16,12 @@ export default {
         console.log("update");
         count.value = i;
       }
-
-      debugger;
-      console.log(instance);
+      console.log('main', instance);
+      // 此时虽然响应式数据更新了，但是DOM并没有更新
+      // instance.node.el.innerText = '仍然是老的'
+      debugger
       nextTick(() => {
-        console.log(instance);
+        console.log('nextTick', instance);
       });
 
       // await nextTick()
