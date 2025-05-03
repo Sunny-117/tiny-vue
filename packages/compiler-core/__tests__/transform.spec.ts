@@ -3,9 +3,9 @@ import { baseParse } from "../src/parse";
 import { transform } from "../src/transform";
 
 describe("transform", () => {
-  it("happy path", () => {
+  it.only("happy path", () => {
     const ast = baseParse("<div>hi,{{message}}</div>");
-
+    console.log(ast)
     const plugin = (node) => {
       if (node.type === NodeTypes.TEXT) {
         node.content = node.content + " mini-vue";

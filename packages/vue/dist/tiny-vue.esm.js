@@ -138,6 +138,8 @@ function isTracking() {
 }
 function trigger(target, key) {
     let depsMap = targetMap.get(target);
+    if (!depsMap)
+        return;
     let dep = depsMap.get(key);
     triggerEffects(dep);
 }
@@ -169,12 +171,23 @@ const set = createSetter();
 const readonlyGet = createGetter(true);
 const shallowReadonlyGet = createGetter(true, true);
 function createGetter(isReadonly = false, shallow = false) {
-    return function get(target, key) {
+    return function get(target, key, receiver) {
         if (key === "__v_isReactive" /* ReactiveFlags.IS_REACTIVE */) {
             return !isReadonly;
         }
         else if (key === "__v_isReadonly" /* ReactiveFlags.IS_READONLY */) {
             return isReadonly;
+        }
+        else if (key === "__v_raw" /* ReactiveFlags.RAW */) {
+            // TODO: raw作为key的场景
+            // TODO: 其他类型后续处理
+            if (receiver === reactiveMap.get(target)) {
+                return target;
+            }
+            if (Object.getPrototypeOf(target) === Object.getPrototypeOf(receiver)) {
+                return target;
+            }
+            return;
         }
         const res = Reflect.get(target, key);
         if (shallow) {
@@ -211,30 +224,39 @@ const shallowReadonlyHandlers = extend({}, readonlyHandlers, {
     get: shallowReadonlyGet,
 });
 
+const reactiveMap = new WeakMap();
+const shallowReactiveMap = new WeakMap();
+const readonlyMap = new WeakMap();
 function reactive(raw) {
-    return createReactiveObject(raw, mutableHandlers);
+    return createReactiveObject(raw, mutableHandlers, reactiveMap);
 }
 function readonly(raw) {
-    return createReactiveObject(raw, readonlyHandlers);
+    return createReactiveObject(raw, readonlyHandlers, readonlyMap);
 }
 function shallowReadonly(raw) {
-    return createReactiveObject(raw, shallowReadonlyHandlers);
+    return createReactiveObject(raw, shallowReadonlyHandlers, shallowReactiveMap);
 }
 function isReactive(value) {
-    return !!value["__v_isReactive" /* ReactiveFlags.IS_REACTIVE */];
+    return !!(value && value["__v_isReactive" /* ReactiveFlags.IS_REACTIVE */]);
 }
 function isReadonly(value) {
-    return !!value["__v_isReadonly" /* ReactiveFlags.IS_READONLY */];
+    return !!(value && value["__v_isReadonly" /* ReactiveFlags.IS_READONLY */]);
 }
 function isProxy(value) {
     return isReactive(value) || isReadonly(value);
 }
-function createReactiveObject(target, baseHandles) {
+function createReactiveObject(target, baseHandles, proxyMap) {
     if (!isObject(target)) {
         console.warn(`target ${target} 必须是一个对象`);
         return target;
     }
-    return new Proxy(target, baseHandles);
+    const existingProxy = proxyMap.get(target);
+    if (existingProxy) {
+        return existingProxy;
+    }
+    const proxy = new Proxy(target, baseHandles);
+    proxyMap.set(target, proxy);
+    return proxy;
 }
 
 class RefImpl {
@@ -871,29 +893,29 @@ function createApp(...args) {
 var runtimeDom = /*#__PURE__*/Object.freeze({
     __proto__: null,
     createApp: createApp,
-    h: h,
-    renderSlots: renderSlots,
-    createTextVNode: createTextVNode,
     createElementVNode: createVNode,
-    getCurrentInstance: getCurrentInstance,
-    registerRuntimeCompiler: registerRuntimeCompiler,
-    provide: provide,
-    inject: inject,
     createRenderer: createRenderer,
-    nextTick: nextTick,
-    toDisplayString: toDisplayString,
-    ref: ref,
-    proxyRefs: proxyRefs,
-    unRef: unRef,
-    isRef: isRef,
-    reactive: reactive,
-    readonly: readonly,
-    shallowReadonly: shallowReadonly,
+    createTextVNode: createTextVNode,
+    effect: effect,
+    getCurrentInstance: getCurrentInstance,
+    h: h,
+    inject: inject,
+    isProxy: isProxy,
     isReactive: isReactive,
     isReadonly: isReadonly,
-    isProxy: isProxy,
-    effect: effect,
-    stop: stop
+    isRef: isRef,
+    nextTick: nextTick,
+    provide: provide,
+    proxyRefs: proxyRefs,
+    reactive: reactive,
+    readonly: readonly,
+    ref: ref,
+    registerRuntimeCompiler: registerRuntimeCompiler,
+    renderSlots: renderSlots,
+    shallowReadonly: shallowReadonly,
+    stop: stop,
+    toDisplayString: toDisplayString,
+    unRef: unRef
 });
 
 const TO_DISPLAY_STRING = Symbol("toDisplayString");
