@@ -3,6 +3,7 @@ import { createVNodeCall, NodeTypes } from "../ast";
 export function transformElement(node, context) {
   if (node.type === NodeTypes.ELEMENT) {
     return () => {
+      // 执行时机：onExit
       // tag
       const vnodeTag = `'${node.tag}'`;
 

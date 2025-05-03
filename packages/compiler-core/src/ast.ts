@@ -6,7 +6,7 @@ export const enum NodeTypes {
   ELEMENT,
   TEXT,
   ROOT,
-  COMPOUND_EXPRESSION,
+  COMPOUND_EXPRESSION, // 复合类型
 }
 
 export function createVNodeCall(context, tag, props, children) {

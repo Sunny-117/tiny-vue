@@ -31,6 +31,7 @@ describe("codegen", () => {
   it("element", () => {
     const ast: any = baseParse("<div>hi,{{message}}</div>");
     transform(ast, {
+      // 在前的插件会优先执行，onExit反之
       nodeTransforms: [transformExpression,transformElement, transformText],
     });
 
