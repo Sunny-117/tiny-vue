@@ -10,7 +10,10 @@ describe("codegen", () => {
     const ast = baseParse("hi");
     transform(ast);
     const { code } = generate(ast);
-    expect(code).toMatchSnapshot();
+    expect(code).toMatchInlineSnapshot(`
+      "
+      return function render(_ctx, _cache){return 'hi'}"
+    `);
   });
 
   it("interpolation", () => {
@@ -19,7 +22,10 @@ describe("codegen", () => {
       nodeTransforms: [transformExpression],
     });
     const { code } = generate(ast);
-    expect(code).toMatchSnapshot();
+    expect(code).toMatchInlineSnapshot(`
+      "const { toDisplayString:_toDisplayString } = Vue
+      return function render(_ctx, _cache){return _toDisplayString(_ctx.message)}"
+    `);
   });
 
   it("element", () => {
@@ -29,6 +35,9 @@ describe("codegen", () => {
     });
 
     const { code } = generate(ast);
-    expect(code).toMatchSnapshot();
+    expect(code).toMatchInlineSnapshot(`
+      "const { toDisplayString:_toDisplayString, createElementVNode:_createElementVNode } = Vue
+      return function render(_ctx, _cache){return _createElementVNode('div', null, 'hi,' + _toDisplayString(_ctx.message))}"
+    `);
   });
 });
