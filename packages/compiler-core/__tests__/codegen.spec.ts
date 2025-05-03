@@ -40,4 +40,17 @@ describe("codegen", () => {
       return function render(_ctx, _cache){return _createElementVNode('div', null, 'hi,' + _toDisplayString(_ctx.message))}"
     `);
   });
+
+  it.todo("transformText plugin", () => {
+    const ast: any = baseParse("hi,{{message}}");
+    transform(ast, {
+      // 调整插件执行顺序
+      nodeTransforms: [transformExpression, transformElement, transformText],
+    });
+    const { code } = generate(ast);
+    expect(code).toMatchInlineSnapshot(`
+      "const { toDisplayString:_toDisplayString } = Vue
+      return function render(_ctx, _cache){return 'hi,'}"
+    `);
+  });
 });
