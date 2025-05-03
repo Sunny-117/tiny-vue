@@ -7,6 +7,7 @@ export function transformExpression(node) {
 }
 
 function processExpression(node: any) {
+  // 处理{{message}}->_ctx.message
   node.content = `_ctx.${node.content}`;
   return node;
 }

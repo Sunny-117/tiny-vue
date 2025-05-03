@@ -115,7 +115,7 @@ function genNodeList(nodes, context) {
 }
 
 function genNullable(args: any) {
-  return args.map((arg) => arg || "null");
+  return args.map((arg) => arg || "null"); // 这里的null是props: null
 }
 
 function genExpression(node: any, context: any) {
