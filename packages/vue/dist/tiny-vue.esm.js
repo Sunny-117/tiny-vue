@@ -587,6 +587,7 @@ function createRenderer(options) {
         function isSomeVNodeType(n1, n2) {
             return n1.type === n2.type && n1.key === n2.key;
         }
+        // 左侧对比
         while (i <= e1 && i <= e2) {
             const n1 = c1[i];
             const n2 = c2[i];
@@ -598,6 +599,7 @@ function createRenderer(options) {
             }
             i++;
         }
+        // 右侧对比
         while (i <= e1 && i <= e2) {
             const n1 = c1[e1];
             const n2 = c2[e2];
@@ -610,11 +612,16 @@ function createRenderer(options) {
             e1--;
             e2--;
         }
+        console.log({ i, e1, e2 });
         if (i > e1) {
             if (i <= e2) {
-                const nextPos = e2 + 1;
+                // 新的比老的长-左侧对比
+                // ? 下面两行为啥这么写：右侧对比
+                const nextPos = e2 + 1; // 左侧添加的时候才有用
                 const anchor = nextPos < l2 ? c2[nextPos].el : null;
+                console.log(anchor);
                 while (i <= e2) {
+                    // 可能创建多个
                     patch(null, c2[i], container, parentComponent, anchor);
                     i++;
                 }
@@ -622,6 +629,7 @@ function createRenderer(options) {
         }
         else if (i > e2) {
             while (i <= e1) {
+                // 老的比新的长，删除老的
                 hostRemove(c1[i].el);
                 i++;
             }
@@ -1017,7 +1025,7 @@ function genNodeList(nodes, context) {
     }
 }
 function genNullable(args) {
-    return args.map((arg) => arg || "null");
+    return args.map((arg) => arg || "null"); // 这里的null是props: null
 }
 function genExpression(node, context) {
     const { push } = context;
@@ -1219,9 +1227,13 @@ function createVNodeCall(context, tag, props, children) {
     };
 }
 
+/**
+ * <div></div> -> _createElementVNode('div')
+ */
 function transformElement(node, context) {
     if (node.type === 2 /* NodeTypes.ELEMENT */) {
         return () => {
+            // 执行时机：onExit
             // tag
             const vnodeTag = `'${node.tag}'`;
             // props
@@ -1234,6 +1246,9 @@ function transformElement(node, context) {
     }
 }
 
+/**
+ * {{message}} -> _ctx.message
+ */
 function transformExpression(node) {
     if (node.type === 0 /* NodeTypes.INTERPOLATION */) {
         node.content = processExpression(node.content);
@@ -1248,8 +1263,13 @@ function isText(node) {
     return (node.type === 3 /* NodeTypes.TEXT */ || node.type === 0 /* NodeTypes.INTERPOLATION */);
 }
 
+/**
+ * 处理"+"："hi,{{message}}"->"hi," + _toDisplayString(_ctx.message)
+ */
 function transformText(node) {
+    // 处理："hi,{{message}}"->"hi," + _toDisplayString(_ctx.message)=> 中间的+
     if (node.type === 2 /* NodeTypes.ELEMENT */) {
+        // 注意处理时机：是onExit阶段处理的
         return () => {
             const { children } = node;
             let currentContainer;
@@ -1259,6 +1279,7 @@ function transformText(node) {
                     for (let j = i + 1; j < children.length; j++) {
                         const next = children[j];
                         if (isText(next)) {
+                            // 只处理text和插值相邻的节点，所以需要两层判断isText
                             if (!currentContainer) {
                                 currentContainer = children[i] = {
                                     type: 5 /* NodeTypes.COMPOUND_EXPRESSION */,

@@ -123,6 +123,7 @@ export function createRenderer(options) {
       return n1.type === n2.type && n1.key === n2.key;
     }
 
+    // 左侧对比
     while (i <= e1 && i <= e2) {
       const n1 = c1[i];
       const n2 = c2[i];
@@ -136,6 +137,7 @@ export function createRenderer(options) {
       i++;
     }
 
+    // 右侧对比
     while (i <= e1 && i <= e2) {
       const n1 = c1[e1];
       const n2 = c2[e2];
@@ -149,18 +151,23 @@ export function createRenderer(options) {
       e1--;
       e2--;
     }
-
+    console.log({ i, e1, e2})
     if (i > e1) {
       if (i <= e2) {
-        const nextPos = e2 + 1;
+        // 新的比老的长-左侧对比
+        // ? 下面两行为啥这么写：右侧对比
+        const nextPos = e2 + 1; // 左侧添加的时候才有用
         const anchor = nextPos < l2 ? c2[nextPos].el : null;
+        console.log(anchor)
         while (i <= e2) {
+          // 可能创建多个
           patch(null, c2[i], container, parentComponent, anchor);
           i++;
         }
       }
     } else if (i > e2) {
       while (i <= e1) {
+        // 老的比新的长，删除老的
         hostRemove(c1[i].el);
         i++;
       }
