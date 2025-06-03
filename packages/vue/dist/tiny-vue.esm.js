@@ -592,6 +592,7 @@ function createRenderer(options) {
             const n1 = c1[i];
             const n2 = c2[i];
             if (isSomeVNodeType(n1, n2)) {
+                // 复用
                 patch(n1, n2, container, parentComponent, parentAnchor);
             }
             else {
@@ -604,6 +605,7 @@ function createRenderer(options) {
             const n1 = c1[e1];
             const n2 = c2[e2];
             if (isSomeVNodeType(n1, n2)) {
+                // 复用
                 patch(n1, n2, container, parentComponent, parentAnchor);
             }
             else {
@@ -641,6 +643,7 @@ function createRenderer(options) {
             const toBePatched = e2 - s2 + 1;
             let patched = 0;
             const keyToNewIndexMap = new Map();
+            // 新的和老的之间的映射
             const newIndexToOldIndexMap = new Array(toBePatched);
             let moved = false;
             let maxNewIndexSoFar = 0;
@@ -653,14 +656,17 @@ function createRenderer(options) {
             for (let i = s1; i <= e1; i++) {
                 const prevChild = c1[i];
                 if (patched >= toBePatched) {
+                    // 所有新节点都对比完成，老的节点依然存在元素
                     hostRemove(prevChild.el);
                     continue;
                 }
                 let newIndex;
                 if (prevChild.key != null) {
+                    // 用户写了key，O(1)
                     newIndex = keyToNewIndexMap.get(prevChild.key);
                 }
                 else {
+                    // 用户没写key，O(n)
                     for (let j = s2; j <= e2; j++) {
                         if (isSomeVNodeType(prevChild, c2[j])) {
                             newIndex = j;
@@ -669,6 +675,7 @@ function createRenderer(options) {
                     }
                 }
                 if (newIndex === undefined) {
+                    // 新节点中没有，需要移除
                     hostRemove(prevChild.el);
                 }
                 else {
@@ -679,10 +686,12 @@ function createRenderer(options) {
                         moved = true;
                     }
                     newIndexToOldIndexMap[newIndex - s2] = i + 1;
+                    // 存在，递归判断相不相同
                     patch(prevChild, c2[newIndex], container, parentComponent, null);
                     patched++;
                 }
             }
+            console.log(newIndexToOldIndexMap, 'newIndexToOldIndexMap');
             const increasingNewIndexSequence = moved
                 ? getSequence(newIndexToOldIndexMap)
                 : [];
